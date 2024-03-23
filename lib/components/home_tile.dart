@@ -11,8 +11,8 @@ class HomeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-        listItems['imageUrl'],
+      leading: Image.asset(
+        listItems['imagesUrl'][0],
         width: 100,
         height: 100,
         fit: BoxFit.cover,

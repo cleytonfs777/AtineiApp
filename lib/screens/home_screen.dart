@@ -1,5 +1,6 @@
 import 'package:atinei_appl/components/home_tile.dart';
 import 'package:atinei_appl/components/vertical_tile.dart';
+import 'package:atinei_appl/data/fornecedores_data.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -20,65 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int currentPage = 0;
 
   // Categorias
-  List<String> categories = [
-    'Todos',
-    'Som',
-    'Palco',
-    'Buffet',
-    'Cerimonial',
-    'Espaço para Eventos',
-    'Barista',
-    'Floricultura',
-    'iluminação'
-  ];
-  List<String> items = [
-    'Todos',
-    'Som',
-    'Palco',
-    'Buffet',
-    'Cerimonial',
-    'Espaço para Eventos',
-    'Barista',
-    'Floricultura',
-    'iluminação'
-  ];
-  List<Map<String, String>> partyServices = [
-    {
-      "imageUrl":
-          "https://i0.wp.com/www.adornardecoracoesfestas.com.br/wp-content/uploads/2020/08/aluguel-decoracao-festa-aniversario-adulto-em-sp-mesa-do-bolo-derrepente-30-40-empresa-de-decoracao-para-festa-sao-paulo.jpg", // Endereço fictício de uma imagem
-      "title": "Decoração Temática",
-      "description":
-          "Oferecemos serviços completos de decoração temática para tornar sua festa inesquecível."
-    },
-    {
-      "imageUrl":
-          "https://img.freepik.com/fotos-gratis/arranjo-de-comida-deliciosa-de-alto-angulo_23-2149617130.jpg", // Endereço fictício de uma imagem
-      "title": "Buffet Completo",
-      "description":
-          "Buffet completo com variedade de pratos quentes, frios e opções veganas."
-    },
-    {
-      "imageUrl":
-          "https://cdn0.casamentos.com.br/vendor/1900/3_2/640/jpg/img-20180912-wa0015_13_261900-157424173397379.jpeg", // Endereço fictício de uma imagem
-      "title": "DJ e Iluminação",
-      "description":
-          "Serviço de DJ com playlist personalizada e iluminação profissional para pista de dança."
-    },
-    {
-      "imageUrl":
-          "https://st2.depositphotos.com/3889193/7829/i/450/depositphotos_78296090-stock-photo-young-photographer-posing.jpg", // Endereço fictício de uma imagem
-      "title": "Fotografia Profissional",
-      "description":
-          "Registre cada momento com nosso serviço de fotografia profissional."
-    },
-    {
-      "imageUrl":
-          "https://img.elo7.com.br/product/zoom/298EC9E/painel-festa-infantil-redondo-desenho-baby-shark-2x2m-painel-decorativo-festa-infantil.jpg", // Endereço fictício de uma imagem
-      "title": "Animação Infantil",
-      "description":
-          "Animação infantil com personagens, brincadeiras e atividades interativas."
-    },
-  ];
+  List<String> categories = FornecedoresData.categories;
+  List<Map<String, dynamic>> partyServices = FornecedoresData.partyServices;
 
   @override
   Widget build(BuildContext context) {

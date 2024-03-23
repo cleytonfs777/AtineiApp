@@ -26,7 +26,10 @@ class PreloginScreen extends StatelessWidget {
               CustomButton(
                 buttonText: "SOU CLIENTE",
                 backgroundColor: AppColors.firstGreen,
-                onPressed: () {},
+                onPressed: () {
+                  // Exemplo de navegação de uma tela para outra
+                  Navigator.pushNamed(context, '/sigup_client_screen');
+                },
               ),
               const SizedBox(
                 height: 20,
@@ -34,7 +37,10 @@ class PreloginScreen extends StatelessWidget {
               CustomButton(
                 buttonText: "SOU PRESTADOR",
                 backgroundColor: AppColors.firstPurple,
-                onPressed: () {},
+                onPressed: () {
+                  // Exemplo de navegação de uma tela para outra
+                  Navigator.pushNamed(context, '/sigup_client_screen');
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
