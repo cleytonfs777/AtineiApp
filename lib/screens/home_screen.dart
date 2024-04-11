@@ -1,6 +1,8 @@
 import 'package:atinei_appl/components/home_tile.dart';
 import 'package:atinei_appl/components/vertical_tile.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
+import 'package:atinei_appl/screens/configure_screen.dart';
+import 'package:atinei_appl/screens/favorite_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //Controle de fluxos
   int selectedIndex = 0; // Inicializa sem nenhum botão selecionado
   int currentPage = 0;
+  PageController pageController = PageController();
 
   // Categorias
   List<String> categories = FornecedoresData.categories;
@@ -96,80 +99,89 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: SizedBox(
-                      width: 40.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          const Text(
-                            "Organizado por: ",
-                            style: TextStyle(fontSize: 13),
-                            textAlign: TextAlign.left,
-                          ),
-                          PopupMenuButton<String>(
-                            onSelected: (String value) {
-                              // Lógica de seleção
-                            },
-                            itemBuilder: (BuildContext context) =>
-                                <PopupMenuEntry<String>>[
-                              const PopupMenuItem<String>(
-                                value: 'a-z',
-                                child: Text('A-Z'),
+            child: PageView(
+              controller: pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: SizedBox(
+                          width: 40.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                "Organizado por: ",
+                                style: TextStyle(fontSize: 13),
+                                textAlign: TextAlign.left,
                               ),
-                              const PopupMenuItem<String>(
-                                value: 'addrecently',
-                                child: Text('Adicionado recentemente'),
+                              PopupMenuButton<String>(
+                                onSelected: (String value) {
+                                  // Lógica de seleção
+                                },
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(
+                                    value: 'a-z',
+                                    child: Text('A-Z'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'addrecently',
+                                    child: Text('Adicionado recentemente'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'lastconversations',
+                                    child: Text('Últimas conversas'),
+                                  ),
+                                  // Adicione mais opções conforme necessário
+                                ],
                               ),
-                              const PopupMenuItem<String>(
-                                value: 'lastconversations',
-                                child: Text('Últimas conversas'),
-                              ),
-                              // Adicione mais opções conforme necessário
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: List.generate(
-                              // Supondo que você tenha uma lista chamada `items` para esta Row
-                              partyServices.length,
-                              (index) => VerticalTile(
-                                  index: index,
-                                  listItems: partyServices[index]),
+                    SliverToBoxAdapter(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(
+                                  // Supondo que você tenha uma lista chamada `items` para esta Row
+                                  partyServices.length,
+                                  (index) => VerticalTile(
+                                      index: index,
+                                      listItems: partyServices[index]),
+                                ),
+                              ),
                             ),
-                          ),
+                            ListView.builder(
+                              shrinkWrap:
+                                  true, // Importante para ListView dentro de Column
+                              physics:
+                                  const NeverScrollableScrollPhysics(), // Desativa o scroll próprio da ListView
+                              itemCount: partyServices
+                                  .length, // Supondo que exista uma lista `listItems`
+                              itemBuilder: (context, index) {
+                                return HomeTile(
+                                    index: index,
+                                    listItems: partyServices[index]);
+                              },
+                            ),
+                          ],
                         ),
-                        ListView.builder(
-                          shrinkWrap:
-                              true, // Importante para ListView dentro de Column
-                          physics:
-                              const NeverScrollableScrollPhysics(), // Desativa o scroll próprio da ListView
-                          itemCount: partyServices
-                              .length, // Supondo que exista uma lista `listItems`
-                          itemBuilder: (context, index) {
-                            return HomeTile(
-                                index: index, listItems: partyServices[index]);
-                          },
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+                FavoriteScreen(),
+                ConfigureScreen(),
               ],
             ),
           ),
@@ -190,6 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     setState(() {
                       currentPage = 0;
+                      pageController.jumpToPage(0);
                     });
                   },
                   child: Container(
@@ -213,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     setState(() {
                       currentPage = 1;
+                      pageController.jumpToPage(1);
                     });
                   },
                   child: Container(
@@ -235,6 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     setState(() {
                       currentPage = 2;
+                      pageController.jumpToPage(2);
                     });
                   },
                   child: Container(

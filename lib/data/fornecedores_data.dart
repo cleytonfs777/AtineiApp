@@ -32,7 +32,15 @@ class FornecedoresData {
   Entendemos a importância de criar eventos que não apenas impressionem visualmente, mas que também criem uma experiência imersiva para você e seus convidados. Por isso, nos dedicamos a cada detalhe, desde a concepção inicial até a execução final, garantindo que cada elemento esteja em perfeita harmonia. Permita-nos ajudá-lo a criar uma festa inesquecível, onde cada detalhe conta uma parte da sua história. Estamos ansiosos para transformar seu evento em uma obra-prima memorável.
   """,
       "price": "R\$ 150,00 por hora",
-      "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Avenida Paulista, 1555',
+        "neigbor": 'Bela Vista',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "00.000.000/0000-00",
+      "phone": "(35)99999-9999",
+      "starts": 5,
     },
     {
       "id": "2",
@@ -56,6 +64,15 @@ class FornecedoresData {
   """,
       "price": "R\$ 100,00 por hora",
       "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Gonçalves Dias, 89',
+        "neighbor": 'Funcionários',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "12.345.678/9012-34",
+      "phone": "(31)98765-4321",
+      "starts": 4
     },
     {
       "id": "3",
@@ -79,6 +96,15 @@ class FornecedoresData {
   """,
       "price": "R\$ 150,00 por hora",
       "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Avenida Afonso Pena, 4000',
+        "neighbor": 'Mangabeiras',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "56.789.012/3456-78",
+      "phone": "(31)99876-5432",
+      "starts": 5
     },
     {
       "id": "4",
@@ -102,6 +128,15 @@ class FornecedoresData {
   """,
       "price": "R\$ 250,00 por hora",
       "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Sapucaí, 303',
+        "neighbor": 'Floresta',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "90.123.456/7890-12",
+      "phone": "(31)91234-5678",
+      "starts": 3
     },
   ];
 }

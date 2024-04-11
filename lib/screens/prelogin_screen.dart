@@ -1,4 +1,6 @@
 import 'package:atinei_appl/components/custom_button.dart';
+import 'package:atinei_appl/screens/login_screen.dart';
+import 'package:atinei_appl/screens/sigup_client_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +29,14 @@ class PreloginScreen extends StatelessWidget {
                 buttonText: "SOU CLIENTE",
                 backgroundColor: AppColors.firstGreen,
                 onPressed: () {
-                  // Exemplo de navegação de uma tela para outra
-                  Navigator.pushNamed(context, '/sigup_client_screen');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SigupClientScreen(
+                        typeUser: "client",
+                      ),
+                    ),
+                  );
                 },
               ),
               const SizedBox(
@@ -38,8 +46,14 @@ class PreloginScreen extends StatelessWidget {
                 buttonText: "SOU PRESTADOR",
                 backgroundColor: AppColors.firstPurple,
                 onPressed: () {
-                  // Exemplo de navegação de uma tela para outra
-                  Navigator.pushNamed(context, '/sigup_client_screen');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SigupClientScreen(
+                        typeUser: "supplier",
+                      ),
+                    ),
+                  );
                 },
               ),
               Padding(
@@ -49,7 +63,14 @@ class PreloginScreen extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                },
                 style: TextButton.styleFrom(
                   backgroundColor:
                       Colors.transparent, // Faz o botão ser transparente

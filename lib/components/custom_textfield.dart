@@ -5,13 +5,17 @@ class CustomTextField extends StatefulWidget {
   final String placeholder;
   final bool obscureText;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
-  const CustomTextField({
-    Key? key,
-    required this.placeholder,
-    this.obscureText = false,
-    this.controller,
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      required this.placeholder,
+      this.obscureText = false,
+      /*  */
+      this.controller,
+      /*  */
+      this.validator})
+      : super(key: key);
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -39,7 +43,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: TextField(
+      child: TextFormField(
         controller: widget.controller,
         obscureText: _obscureText,
         decoration: InputDecoration(
@@ -57,6 +61,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 )
               : null,
         ),
+        validator: widget.validator,
       ),
     );
   }

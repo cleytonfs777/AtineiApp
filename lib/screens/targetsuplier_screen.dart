@@ -1,6 +1,9 @@
+import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
+import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TargetSupplierScreen extends StatefulWidget {
   final Map<String, dynamic> listItems;
@@ -26,6 +29,8 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final usuario = Provider.of<AuthService>(context).userData;
+
     return Scaffold(
       body: Column(
         children: [
@@ -102,19 +107,111 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            20.0), // Define o raio das bordas
-                        child: Image.asset(
-                          widget.listItems['imagesUrl'][0],
-                          width: 130.0,
-                          height: 130.0,
-                          fit: BoxFit
-                              .cover, // Define o modo de redimensionamento
+                      width: double.infinity,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // ajuste o valor de acordo com a quantidade de arredondamento desejada
+                          child: AnotherCarousel(
+                            images: widget.listItems['imagesUrl'].map((url) {
+                              return Image.asset(url);
+                            }).toList(),
+                            dotSize: 4.0,
+                            dotSpacing: 15.0,
+                            dotColor: Colors.white,
+                            indicatorBgPadding: 5.0,
+                            autoplay: false,
+                            animationCurve: Curves.fastOutSlowIn,
+                            animationDuration:
+                                const Duration(milliseconds: 1000),
+                          ),
                         ),
                       ),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    // Defina a altura e a largura conforme necessário
+
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      // Define o gradiente
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter, // Início do gradiente
+                        end: Alignment.topCenter, // Fim do gradiente
+                        colors: [
+                          AppColors.firstPurple, // Cor inicial (bottom)
+                          Colors.white, // Cor final (top)
+                        ],
+                        // Você pode ajustar os pontos de parada para controlar como as cores são distribuídas
+                        stops: [0.0, 1.0],
+                      ),
+                    ),
+                    // Você pode adicionar um child ao Container, se necessário
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    widget.listItems['title'],
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0,
+                                      color: AppColors.firstPurple,
+                                    ),
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  Text(
+                                    widget.listItems['location']['street'],
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  Text(
+                                    "${widget.listItems['location']['neigbor']}, ${widget.listItems['location']['city']} - ${widget.listItems['location']['state']}",
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  Text(
+                                    widget.listItems['cnpj'],
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  Text(
+                                    widget.listItems['phone'],
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ]),
+                            Column(children: [
+                              const Text("AVALIAÇÃO"),
+                              const Text("starts"),
+                              IconButton(
+                                icon: const Icon(Icons
+                                    .share), // Define o ícone de compartilhamento
+                                onPressed: () {},
+                              )
+                            ]),
+                          ],
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15.0),
+                          child: Row(children: [
+                            Text(
+                              "Quem somos",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25.0,
+                                color: Colors.white,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ]),
+                        ),
+                      ]),
                     ),
                   ),
                 ),
@@ -126,12 +223,6 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Text(
-                            "Quem somos",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25.0),
-                            textAlign: TextAlign.start,
-                          ),
                           Text(
                             widget.listItems['description_long'],
                             style: TextStyle(
