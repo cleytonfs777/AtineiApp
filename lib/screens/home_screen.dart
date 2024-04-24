@@ -1,16 +1,17 @@
-import 'package:atinei_appl/components/home_tile.dart';
-import 'package:atinei_appl/components/vertical_tile.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
 import 'package:atinei_appl/screens/configure_screen.dart';
 import 'package:atinei_appl/screens/favorite_screen.dart';
+import 'package:atinei_appl/screens/targetsuplier_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final int initialPage;
+
+  const HomeScreen({Key? key, this.initialPage = 0}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -21,7 +22,26 @@ class _HomeScreenState extends State<HomeScreen> {
   //Controle de fluxos
   int selectedIndex = 0; // Inicializa sem nenhum botão selecionado
   int currentPage = 0;
-  PageController pageController = PageController();
+  late PageController pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: widget.initialPage);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    pageController.jumpToPage(index);
+    setState(() {
+      currentPage = index;
+    });
+  }
 
   // Categorias
   List<String> categories = FornecedoresData.categories;
@@ -29,249 +49,335 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 60.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-            child: Row(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.all(2), // Ajuste conforme necessário
-                  child: Image.asset(
-                    'images/litle_atinei.png', // Substitua pelo caminho do seu logotipo
-                    height: 60.0, // Ajuste a altura conforme necessário
-                  ),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      hintText: "O que você procura?",
-                      contentPadding: const EdgeInsets.all(0),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(25)),
-                      fillColor: AppColors.greyback,
-                      filled: true,
-                    ),
-                  ),
-                ),
-              ],
+    return PopScope(
+      canPop: false, // Bloqueia o botão de voltar nesta tela
+      child: Scaffold(
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 60.0,
             ),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                categories.length,
-                (index) => Container(
-                  padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 10.0),
-                  child: OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedIndex =
-                            index; // Atualiza o índice do botão selecionado
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide.none, // Remove a borda do botão
-                      backgroundColor: selectedIndex == index
-                          ? Colors.purple
-                          : Colors.transparent, // Fundo roxo se selecionado
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Row(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.all(2), // Ajuste conforme necessário
+                    child: Image.asset(
+                      'images/litle_atinei.png', // Substitua pelo caminho do seu logotipo
+                      height: 60.0, // Ajuste a altura conforme necessário
                     ),
-                    child: Text(
-                      categories[index],
-                      style: TextStyle(
-                        color: selectedIndex == index
-                            ? Colors.white
-                            : Colors
-                                .grey, // Texto branco se selecionado, senão cinza
+                  ),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        hintText: "O que você procura?",
+                        contentPadding: const EdgeInsets.all(0),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(25)),
+                        fillColor: AppColors.greyback,
+                        filled: true,
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          ),
-          Expanded(
-            child: PageView(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: SizedBox(
-                          width: 40.0,
+            Expanded(
+              child: PageView(
+                onPageChanged: (index) {
+                  setState(() {
+                    currentPage = index;
+                  });
+                },
+                controller: pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              const Text(
-                                "Organizado por: ",
-                                style: TextStyle(fontSize: 13),
-                                textAlign: TextAlign.left,
+                            children: List.generate(
+                              categories.length,
+                              (index) => Container(
+                                padding: const EdgeInsets.fromLTRB(
+                                    5.0, 0, 5.0, 10.0),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedIndex =
+                                          index; // Atualiza o índice do botão selecionado
+                                    });
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide
+                                        .none, // Remove a borda do botão
+                                    backgroundColor: selectedIndex == index
+                                        ? Colors.purple
+                                        : Colors
+                                            .transparent, // Fundo roxo se selecionado
+                                  ),
+                                  child: Text(
+                                    categories[index],
+                                    style: TextStyle(
+                                      color: selectedIndex == index
+                                          ? Colors.white
+                                          : Colors
+                                              .grey, // Texto branco se selecionado, senão cinza
+                                    ),
+                                  ),
+                                ),
                               ),
-                              PopupMenuButton<String>(
-                                onSelected: (String value) {
-                                  // Lógica de seleção
+                            ),
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: SizedBox(
+                            width: 40.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                const Text(
+                                  "Organizado por: ",
+                                  style: TextStyle(fontSize: 13),
+                                  textAlign: TextAlign.left,
+                                ),
+                                PopupMenuButton<String>(
+                                  onSelected: (String value) {
+                                    // Lógica de seleção
+                                  },
+                                  itemBuilder: (BuildContext context) =>
+                                      <PopupMenuEntry<String>>[
+                                    const PopupMenuItem<String>(
+                                      value: 'a-z',
+                                      child: Text('A-Z'),
+                                    ),
+                                    const PopupMenuItem<String>(
+                                      value: 'addrecently',
+                                      child: Text('Adicionado recentemente'),
+                                    ),
+                                    const PopupMenuItem<String>(
+                                      value: 'lastconversations',
+                                      child: Text('Últimas conversas'),
+                                    ),
+                                    // Adicione mais opções conforme necessário
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: List.generate(
+                                    // Supondo que você tenha uma lista chamada `items` para esta Row
+                                    partyServices.length,
+                                    (index) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          var resultado = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TargetSupplierScreen(
+                                                      listItems:
+                                                          partyServices[index]),
+                                            ),
+                                          ); // Chama o callback após retornar
+
+                                          // 'resultado' contém o parâmetro passado de volta pelo Navigator.pop()
+                                          if (resultado != null) {
+                                            _onItemTapped(resultado);
+                                          }
+                                        },
+                                        child: Container(
+                                          color: AppColors.firstPurple,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0), // Define o raio das bordas
+                                                  child: Image.asset(
+                                                    partyServices[index]
+                                                        ['imagesUrl'][0],
+                                                    width: 130.0,
+                                                    height: 130.0,
+                                                    fit: BoxFit
+                                                        .cover, // Define o modo de redimensionamento
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Text(
+                                                  partyServices[index]['title'],
+                                                  style: const TextStyle(
+                                                    color: AppColors.firstGreen,
+                                                    fontSize: 15.0,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: SizedBox(
+                                                  width: 130.0,
+                                                  height: 100.0,
+                                                  child: Text(
+                                                    partyServices[index]
+                                                        ['description'],
+                                                    style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14.0,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                    overflow: TextOverflow
+                                                        .ellipsis, // Adiciona "..." ao exceder o espaço disponível
+                                                    maxLines: 4,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                height: 10.0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                      // Na HomeScreen, ao construir HomeTile ou VerticalTile
+                                    },
+                                  ),
+                                ),
+                              ),
+                              ListView.builder(
+                                shrinkWrap:
+                                    true, // Importante para ListView dentro de Column
+                                physics:
+                                    const NeverScrollableScrollPhysics(), // Desativa o scroll próprio da ListView
+                                itemCount: partyServices
+                                    .length, // Supondo que exista uma lista `listItems`
+                                itemBuilder: (context, index) {
+                                  return
+                                      // Na HomeScreen, ao construir HomeTile ou VerticalTile
+                                      ListTile(
+                                    leading: Image.asset(
+                                      partyServices[index]['imagesUrl'][0],
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    title: Text(partyServices[index]['title']),
+                                    subtitle: Text(
+                                      partyServices[index]['description'],
+                                      overflow: TextOverflow
+                                          .ellipsis, // Adiciona "..." ao exceder o espaço disponível
+                                      maxLines: 2,
+                                    ),
+                                    trailing: IconButton(
+                                      icon: const Icon(Icons.arrow_forward),
+                                      onPressed: () async {
+                                        var resultado = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TargetSupplierScreen(
+                                                    listItems:
+                                                        partyServices[index]),
+                                          ),
+                                        ); // Chama o callback após retornar
+
+                                        // 'resultado' contém o parâmetro passado de volta pelo Navigator.pop()
+                                        if (resultado != null) {
+                                          _onItemTapped(resultado);
+                                        }
+                                      },
+                                    ),
+                                  );
                                 },
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
-                                  const PopupMenuItem<String>(
-                                    value: 'a-z',
-                                    child: Text('A-Z'),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'addrecently',
-                                    child: Text('Adicionado recentemente'),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'lastconversations',
-                                    child: Text('Últimas conversas'),
-                                  ),
-                                  // Adicione mais opções conforme necessário
-                                ],
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: List.generate(
-                                  // Supondo que você tenha uma lista chamada `items` para esta Row
-                                  partyServices.length,
-                                  (index) => VerticalTile(
-                                      index: index,
-                                      listItems: partyServices[index]),
-                                ),
-                              ),
-                            ),
-                            ListView.builder(
-                              shrinkWrap:
-                                  true, // Importante para ListView dentro de Column
-                              physics:
-                                  const NeverScrollableScrollPhysics(), // Desativa o scroll próprio da ListView
-                              itemCount: partyServices
-                                  .length, // Supondo que exista uma lista `listItems`
-                              itemBuilder: (context, index) {
-                                return HomeTile(
-                                    index: index,
-                                    listItems: partyServices[index]);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                FavoriteScreen(),
-                ConfigureScreen(),
-              ],
+                    ],
+                  ),
+                  FavoriteScreen(),
+                  ConfigureScreen(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: buildBottomNavigationBar(),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.greyBar,
-        child: IconTheme(
-          data: IconThemeData(
-            size: sizeIcon,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(7.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentPage = 0;
-                      pageController.jumpToPage(0);
-                    });
-                  },
-                  child: Container(
-                    width: sizeIconBottom, // Largura do container
-                    height: sizeIconBottom, // Altura do container
-                    decoration: BoxDecoration(
-                      color: currentPage == 0
-                          ? AppColors.firstPurple
-                          : Colors.transparent, // Cor de fundo do container
-                      shape: BoxShape.circle, // Forma do container
-                    ),
-                    child: Icon(
-                      Icons.home_outlined,
-                      color: currentPage == 0 ? Colors.white : Colors.black,
-                      size: sizeIcon, // Tamanho do ícone ajustado
-                    ),
-                  ),
-                ),
-                // Repita para outros ícones conforme necessário
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentPage = 1;
-                      pageController.jumpToPage(1);
-                    });
-                  },
-                  child: Container(
-                    width: sizeIconBottom, // Largura do container
-                    height: sizeIconBottom, // Altura do container
-                    decoration: BoxDecoration(
-                      color: currentPage == 1
-                          ? AppColors.firstPurple
-                          : Colors.transparent, // Cor de fundo do container
-                      shape: BoxShape.circle, // Forma do container
-                    ),
-                    child: Icon(
-                      Icons.favorite_border_outlined,
-                      color: currentPage == 1 ? Colors.white : Colors.black,
-                      size: sizeIcon, // Tamanho do ícone ajustado
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentPage = 2;
-                      pageController.jumpToPage(2);
-                    });
-                  },
-                  child: Container(
-                    width: sizeIconBottom, // Largura do container
-                    height: sizeIconBottom, // Altura do container
+    );
+  }
 
-                    decoration: BoxDecoration(
-                      color: currentPage == 2
-                          ? AppColors.firstPurple
-                          : Colors.transparent, // Cor de fundo do container
-                      shape: BoxShape.circle, // Forma do container
-                    ),
-                    child: Icon(
-                      Icons.person_outline_outlined,
-                      color: currentPage == 2 ? Colors.white : Colors.black,
-                      size: sizeIcon, // Tamanho do ícone ajustado
-                    ),
-                  ),
-                ),
-              ],
-            ),
+  BottomAppBar buildBottomNavigationBar() {
+    return BottomAppBar(
+      color: AppColors.greyBar,
+      child: IconTheme(
+        data: IconThemeData(size: sizeIcon),
+        child: Padding(
+          padding: const EdgeInsets.all(7.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              buildNavItem(Icons.home_outlined, 0),
+              buildNavItem(Icons.favorite_border_outlined, 1),
+              buildNavItem(Icons.person_outline_outlined, 2),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildNavItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          currentPage = index;
+          pageController.jumpToPage(index);
+        });
+      },
+      child: Container(
+        width: sizeIconBottom,
+        height: sizeIconBottom,
+        decoration: BoxDecoration(
+          color:
+              currentPage == index ? AppColors.firstPurple : Colors.transparent,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: currentPage == index ? Colors.white : Colors.black,
+          size: sizeIcon,
         ),
       ),
     );

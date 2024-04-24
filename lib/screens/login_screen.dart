@@ -40,8 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
       await context
           .read<AuthService>()
           .login(_emailController.text, _passwordController.text);
-      // ignore: use_build_context_synchronously
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const AuthCheck()),
       );

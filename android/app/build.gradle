@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.cleytonfs7.atinei_appl"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {

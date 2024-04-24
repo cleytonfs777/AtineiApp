@@ -82,7 +82,7 @@ class PreloginScreen extends StatelessWidget {
                       .splashFactory, // Remove o efeito de splash ao pressionar
                 ),
                 child: const Text(
-                  "JÁ COU CADASTRADO",
+                  "JÁ SOU CADASTRADO",
                   style: TextStyle(
                     color: Colors.grey, // Cor do texto em cinza
                     fontWeight: FontWeight.bold,

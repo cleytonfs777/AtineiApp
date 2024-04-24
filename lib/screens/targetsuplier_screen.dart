@@ -1,9 +1,10 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
+import 'package:atinei_appl/components/button_with_icon.dart';
+import 'package:atinei_appl/components/dynamic_rating.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
-import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TargetSupplierScreen extends StatefulWidget {
   final Map<String, dynamic> listItems;
@@ -27,10 +28,11 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
 
   List<String> categories = FornecedoresData.categories;
 
+  bool isFavorite = false; // Inicializa como não favorito
+
+  @override
   @override
   Widget build(BuildContext context) {
-    final usuario = Provider.of<AuthService>(context).userData;
-
     return Scaffold(
       body: Column(
         children: [
@@ -160,14 +162,41 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                             Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    widget.listItems['title'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0,
-                                      color: AppColors.firstPurple,
+                                  SizedBox(
+                                    height: 30,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          widget.listItems['title'],
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.0,
+                                            color: AppColors.firstPurple,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        IconButton(
+                                          icon: Icon(isFavorite
+                                              ? Icons.favorite
+                                              : Icons.favorite_border),
+                                          color: Colors.red,
+                                          iconSize:
+                                              35, // Ajuste o tamanho do ícone aqui
+
+                                          style: IconButton.styleFrom(
+                                            foregroundColor: Colors.red,
+                                            shape: const CircleBorder(),
+                                            padding: const EdgeInsets.all(0.0),
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              isFavorite =
+                                                  !isFavorite; // Alterna o estado de isFavorite
+                                            });
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    textAlign: TextAlign.start,
                                   ),
                                   Text(
                                     widget.listItems['location']['street'],
@@ -188,7 +217,9 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                                 ]),
                             Column(children: [
                               const Text("AVALIAÇÃO"),
-                              const Text("starts"),
+                              DynamicRatingBar(
+                                  readOnly: true,
+                                  currentRating: widget.listItems['starts']),
                               IconButton(
                                 icon: const Icon(Icons
                                     .share), // Define o ícone de compartilhamento
@@ -229,34 +260,34 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                                 fontSize: 17.0, color: Colors.grey[500]),
                             textAlign: TextAlign.justify,
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "Contato: ${widget.listItems['contact']}",
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 17.0,
-                                    color: Color.fromARGB(255, 20, 20, 20)),
-                                textAlign: TextAlign.start,
-                              ),
-                              const Icon(Icons.phone_android,
-                                  color: Colors.green),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: ButtonWithIcon(
+                                buttonText: "Falar pelo chat",
+                                backgroundColor: AppColors.firstGreen,
+                                onPressed: () {},
+                                icon: Icons.message_outlined),
                           ),
-                          const SizedBox(
-                            height: 20.0,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: ButtonWithIcon(
+                                buttonText: "Ligar para o prestador",
+                                backgroundColor: AppColors.firstGreen,
+                                onPressed: () {},
+                                icon: Icons.phone_sharp),
                           ),
-                          Text(
-                            "Preço: ${widget.listItems['price']}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                                color: Color.fromARGB(255, 20, 20, 20)),
-                            textAlign: TextAlign.start,
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: ButtonWithIcon(
+                              buttonText: "Falar pelo whatsapp",
+                              backgroundColor: AppColors.firstGreen,
+                              onPressed: () {
+                                // Aqui você pode adicionar a lógica para abrir uma conversa do WhatsApp, por exemplo
+                              },
+                              icon: FontAwesomeIcons
+                                  .whatsapp, // Correção: passar apenas o IconData
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -280,9 +311,8 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      currentPage = 0;
-                    });
+// Algum ponto na sua lógica onde você decide voltar para a tela anterior
+                    Navigator.of(context).pop(0);
                   },
                   child: Container(
                     width: sizeIconBottom, // Largura do container
@@ -303,9 +333,9 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                 // Repita para outros ícones conforme necessário
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      currentPage = 1;
-                    });
+                    // Faz um navigation pop para voltar para a tela anterior
+// Algum ponto na sua lógica onde você decide voltar para a tela anterior
+                    Navigator.of(context).pop(1);
                   },
                   child: Container(
                     width: sizeIconBottom, // Largura do container
@@ -325,9 +355,8 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    setState(() {
-                      currentPage = 2;
-                    });
+// Algum ponto na sua lógica onde você decide voltar para a tela anterior
+                    Navigator.of(context).pop(2);
                   },
                   child: Container(
                     width: sizeIconBottom, // Largura do container

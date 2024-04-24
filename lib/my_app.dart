@@ -1,3 +1,4 @@
+import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:atinei_appl/widget/auth_check.dart';
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        primaryColor: const Color.fromARGB(255, 155, 156, 156),
+        iconTheme: const IconThemeData(color: AppColors.firstPurple),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),

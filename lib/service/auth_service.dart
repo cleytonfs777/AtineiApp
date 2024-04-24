@@ -117,8 +117,62 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  setUserInit() async {
+    _getUser();
+  }
+
   logout() async {
     await _auth.signOut();
     _getUser();
+  }
+
+  Future<void> reauthenticate(String email, String password) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      AuthCredential credential =
+          EmailAuthProvider.credential(email: email, password: password);
+
+      try {
+        await user.reauthenticateWithCredential(credential);
+      } on FirebaseAuthException catch (e) {
+        throw AuthException('Falha na reautenticação: ${e.message}');
+      }
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        // Primeiro, deletar os dados do usuário no Firestore
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(_auth.currentUser!.uid)
+            .delete();
+
+        // Depois, deletar a conta do usuário no Firebase Authentication
+        await user.delete();
+
+        // Atualizar o estado interno para refletir que o usuário foi deletado
+        usuario = null;
+        userData = {};
+        _authCheck();
+        notifyListeners();
+      } on FirebaseAuthException catch (e) {
+        print("Erro ao deletar conta de usuário: $e");
+        isLoading = false;
+        if (e.code == 'requires-recent-login') {
+          // Este erro significa que o usuário precisa reautenticar para deletar a conta
+          throw AuthException(
+              'Por favor, faça login novamente antes de tentar deletar sua conta.');
+        } else {
+          throw AuthException('Falha ao deletar conta: ${e.message}');
+        }
+      } catch (e) {
+        isLoading = false;
+        print("Erro desconhecido ao deletar conta: $e");
+        throw AuthException('Erro desconhecido ao deletar conta.');
+      }
+    }
   }
 }

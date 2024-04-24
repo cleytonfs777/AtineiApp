@@ -3,6 +3,7 @@ import 'package:atinei_appl/styles/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
   final String placeholder;
+  final TextInputType? keyboardtype;
   final bool obscureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -14,7 +15,9 @@ class CustomTextField extends StatefulWidget {
       /*  */
       this.controller,
       /*  */
-      this.validator})
+      this.validator,
+      /*  */
+      this.keyboardtype})
       : super(key: key);
 
   @override
@@ -46,6 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: TextFormField(
         controller: widget.controller,
         obscureText: _obscureText,
+        keyboardType: widget.keyboardtype ?? TextInputType.text,
         decoration: InputDecoration(
           fillColor: AppColors.fundoTextField,
           filled: true,

@@ -134,6 +134,7 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                           CustomTextField(
                             placeholder: "Nome",
                             controller: _nameController,
+                            keyboardtype: TextInputType.name,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Informa seu Nome';
@@ -144,6 +145,7 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                           CustomTextField(
                             placeholder: "E-mail",
                             controller: _emailController,
+                            keyboardtype: TextInputType.emailAddress,
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Informa seu E-mail';

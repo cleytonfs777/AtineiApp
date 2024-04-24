@@ -13,7 +13,7 @@ class FornecedoresData {
   ];
   static const List<Map<String, dynamic>> partyServices = [
     {
-      "id": "1",
+      "id": 1,
       "imagesUrl": [
         "images/fornecedores/decor/1.png",
         "images/fornecedores/decor/2.png",
@@ -31,7 +31,7 @@ class FornecedoresData {
 
   Entendemos a importância de criar eventos que não apenas impressionem visualmente, mas que também criem uma experiência imersiva para você e seus convidados. Por isso, nos dedicamos a cada detalhe, desde a concepção inicial até a execução final, garantindo que cada elemento esteja em perfeita harmonia. Permita-nos ajudá-lo a criar uma festa inesquecível, onde cada detalhe conta uma parte da sua história. Estamos ansiosos para transformar seu evento em uma obra-prima memorável.
   """,
-      "price": "R\$ 150,00 por hora",
+      "website": "http://www.google.com.br",
       "location": {
         "street": 'Avenida Paulista, 1555',
         "neigbor": 'Bela Vista',
@@ -40,10 +40,10 @@ class FornecedoresData {
       },
       "cnpj": "00.000.000/0000-00",
       "phone": "(35)99999-9999",
-      "starts": 5,
+      "starts": 5.0,
     },
     {
-      "id": "2",
+      "id": 2,
       "imagesUrl": [
         "images/fornecedores/buff/1.png",
         "images/fornecedores/buff/2.png",
@@ -62,7 +62,7 @@ class FornecedoresData {
   Além de nossa excelência culinária, nosso serviço de Buffet Completo inclui a montagem de um ambiente elegante e agradável, com atenção especial à apresentação dos pratos e à experiência de jantar dos seus convidados. Nossa equipe profissional garante um serviço impecável, permitindo que você relaxe e desfrute do seu evento tanto quanto seus convidados. Seja um casamento, uma festa de aniversário ou um evento corporativo, estamos aqui para transformar sua celebração em um evento inesquecível.
 
   """,
-      "price": "R\$ 100,00 por hora",
+      "website": "http://www.google.com.br",
       "contact": "(35)99999-9999",
       "location": {
         "street": 'Rua Gonçalves Dias, 89',
@@ -72,10 +72,10 @@ class FornecedoresData {
       },
       "cnpj": "12.345.678/9012-34",
       "phone": "(31)98765-4321",
-      "starts": 4
+      "starts": 4.0,
     },
     {
-      "id": "3",
+      "id": 3,
       "imagesUrl": [
         "images/fornecedores/djj/1.png",
         "images/fornecedores/djj/2.png",
@@ -94,7 +94,7 @@ class FornecedoresData {
   Nosso compromisso é com a qualidade e a personalização, garantindo que cada detalhe esteja em harmonia com suas expectativas. Com equipamento de ponta e profissionais experientes, estamos prontos para atender eventos de qualquer tamanho, oferecendo soluções criativas e eficazes para tornar sua festa um sucesso memorável. Deixe-nos cuidar da música e da iluminação enquanto você se concentra em desfrutar do seu evento com seus convidados. Juntos, podemos criar uma noite que será lembrada por anos.
 
   """,
-      "price": "R\$ 150,00 por hora",
+      "website": "http://www.google.com.br",
       "contact": "(35)99999-9999",
       "location": {
         "street": 'Avenida Afonso Pena, 4000',
@@ -104,10 +104,10 @@ class FornecedoresData {
       },
       "cnpj": "56.789.012/3456-78",
       "phone": "(31)99876-5432",
-      "starts": 5
+      "starts": 5.0,
     },
     {
-      "id": "4",
+      "id": 4,
       "imagesUrl": [
         "images/fornecedores/foto/1.png",
         "images/fornecedores/foto/2.png",
@@ -126,7 +126,7 @@ class FornecedoresData {
   Após o evento, cuidamos da edição profissional das fotos para garantir que cada imagem reflita a melhor luz e composição. Oferecemos também opções de álbuns personalizados, impressões de alta qualidade e galerias online privadas, para que você possa compartilhar suas lembranças com familiares e amigos. Deixe-nos ajudá-lo a contar a história do seu evento através de imagens deslumbrantes que falam mais do que palavras.
 
   """,
-      "price": "R\$ 250,00 por hora",
+      "website": "http://www.google.com.br",
       "contact": "(35)99999-9999",
       "location": {
         "street": 'Rua Sapucaí, 303',
@@ -136,7 +136,7 @@ class FornecedoresData {
       },
       "cnpj": "90.123.456/7890-12",
       "phone": "(31)91234-5678",
-      "starts": 3
+      "starts": 3.0,
     },
   ];
 }
