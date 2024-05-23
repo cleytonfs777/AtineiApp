@@ -4,16 +4,20 @@ class FornecedoresData {
     'Todos',
     'Som',
     'Palco',
+    'Fotografia',
     'Buffet',
     'Cerimonial',
     'Espaço para Eventos',
     'Barista',
     'Floricultura',
-    'iluminação'
+    'Video',
+    'Iluminação'
   ];
   static const List<Map<String, dynamic>> partyServices = [
     {
       "id": 1,
+      "isPremium": false,
+      "categories": ["Cerimonial", "Espaço para Eventos"],
       "imagesUrl": [
         "images/fornecedores/decor/1.png",
         "images/fornecedores/decor/2.png",
@@ -40,10 +44,13 @@ class FornecedoresData {
       },
       "cnpj": "00.000.000/0000-00",
       "phone": "(35)99999-9999",
+      "contactwhats": "+5531996603153",
       "starts": 5.0,
     },
     {
       "id": 2,
+      "isPremium": true,
+      "categories": ["Buffet"],
       "imagesUrl": [
         "images/fornecedores/buff/1.png",
         "images/fornecedores/buff/2.png",
@@ -63,7 +70,6 @@ class FornecedoresData {
 
   """,
       "website": "http://www.google.com.br",
-      "contact": "(35)99999-9999",
       "location": {
         "street": 'Rua Gonçalves Dias, 89',
         "neighbor": 'Funcionários',
@@ -72,10 +78,13 @@ class FornecedoresData {
       },
       "cnpj": "12.345.678/9012-34",
       "phone": "(31)98765-4321",
+      "contactwhats": "+5531996603153",
       "starts": 4.0,
     },
     {
       "id": 3,
+      "isPremium": false,
+      "categories": ["Iluminação", "Som"],
       "imagesUrl": [
         "images/fornecedores/djj/1.png",
         "images/fornecedores/djj/2.png",
@@ -104,10 +113,13 @@ class FornecedoresData {
       },
       "cnpj": "56.789.012/3456-78",
       "phone": "(31)99876-5432",
+      "contactwhats": "+5531996603153",
       "starts": 5.0,
     },
     {
       "id": 4,
+      "isPremium": true,
+      "categories": ["Fotografia"],
       "imagesUrl": [
         "images/fornecedores/foto/1.png",
         "images/fornecedores/foto/2.png",
@@ -136,7 +148,43 @@ class FornecedoresData {
       },
       "cnpj": "90.123.456/7890-12",
       "phone": "(31)91234-5678",
+      "contactwhats": "+5531996603153",
       "starts": 3.0,
     },
+    {
+      "id": 5,
+      "isPremium": true,
+      "categories": ["Video", "Fotografia"],
+      "imagesUrl": [
+        "images/fornecedores/foto/5.png",
+        "images/fornecedores/foto/4.png",
+        "images/fornecedores/foto/3.png",
+        "images/fornecedores/foto/2.png",
+        "images/fornecedores/foto/1.png",
+      ],
+      "title": "Filmagem Profissional",
+      "description":
+          "Registre cada momento com nosso serviço de filmagem profissional.",
+      "description_long": """
+  Capture a essência de seus momentos especiais com nosso serviço de fotografia profissional. Entendemos a importância de preservar memórias, por isso oferecemos uma abordagem personalizada para atender às suas necessidades específicas. Nossos fotógrafos são especialistas em capturar a beleza e a emoção de cada evento, seja um casamento, uma festa de aniversário, um encontro familiar ou qualquer outra ocasião importante.
+
+  Utilizamos equipamentos de última geração e técnicas avançadas de fotografia para garantir imagens de alta qualidade que você vai valorizar por toda a vida. Nossa equipe trabalha de forma discreta e profissional, garantindo que todos os momentos significativos sejam capturados sem interromper o fluxo do seu evento. Além disso, oferecemos uma ampla gama de pacotes de fotografia, incluindo sessões pré-evento, cobertura completa do evento e sessões pós-evento, para que você possa escolher o que melhor se adapta ao seu orçamento e às suas necessidades.
+
+  Após o evento, cuidamos da edição profissional das fotos para garantir que cada imagem reflita a melhor luz e composição. Oferecemos também opções de álbuns personalizados, impressões de alta qualidade e galerias online privadas, para que você possa compartilhar suas lembranças com familiares e amigos. Deixe-nos ajudá-lo a contar a história do seu evento através de imagens deslumbrantes que falam mais do que palavras.
+
+  """,
+      "website": "http://www.google.com.br",
+      "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Sapucaí, 303',
+        "neighbor": 'Floresta',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "90.123.456/7890-12",
+      "phone": "(31)91234-5678",
+      "contactwhats": "+5531996603153",
+      "starts": 3.0,
+    }
   ];
 }

@@ -1,6 +1,7 @@
 import 'package:atinei_appl/components/custom_button.dart';
 import 'package:atinei_appl/screens/login_screen.dart';
 import 'package:atinei_appl/screens/sigup_client_screen.dart';
+import 'package:atinei_appl/screens/supplier/sigup_supplier1_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -49,9 +50,7 @@ class PreloginScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SigupClientScreen(
-                        typeUser: "supplier",
-                      ),
+                      builder: (context) => SigupSupplier1Screen(),
                     ),
                   );
                 },

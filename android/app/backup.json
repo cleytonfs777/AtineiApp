@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "195499106808",
+    "project_id": "atinei-appl",
+    "storage_bucket": "atinei-appl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195499106808:android:e6ce1a77c5b9cc799a360d",
+        "android_client_info": {
+          "package_name": "com.cleytonfs7.atinei_appl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv1LHvswb0iG6MtwvEnhxax275f5KOyD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -23,11 +23,39 @@ class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0; // Inicializa sem nenhum botão selecionado
   int currentPage = 0;
   late PageController pageController;
+  late List<Map<String, dynamic>> Listpremiumlist;
+  late List<Map<String, dynamic>> resultSearch;
+  List<Map<String, dynamic>> allServices = [];
 
   @override
   void initState() {
     super.initState();
+    allServices = List.from(FornecedoresData.partyServices);
+    resultSearch = List.from(FornecedoresData.partyServices);
     pageController = PageController(initialPage: widget.initialPage);
+    Listpremiumlist = FornecedoresData.partyServices
+        .where((element) => element['isPremium'] == true)
+        .toList();
+  }
+
+  void runFilter(String enteredKeyword) {
+    if (enteredKeyword.isEmpty) {
+      resultSearch = List.from(allServices);
+    } else {
+      resultSearch = allServices
+          .where((service) =>
+              service['title']
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()) ||
+              service['description']
+                  .toLowerCase()
+                  .contains(enteredKeyword.toLowerCase()))
+          .toList();
+    }
+
+    setState(() {
+      // Atualiza a UI para refletir os novos resultados de busca
+    });
   }
 
   @override
@@ -71,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      onChanged: (value) => runFilter(value),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.search),
                         hintText: "O que você procura?",
@@ -183,94 +212,102 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: List.generate(
-                                    // Supondo que você tenha uma lista chamada `items` para esta Row
-                                    partyServices.length,
-                                    (index) {
-                                      return InkWell(
-                                        onTap: () async {
-                                          var resultado = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  TargetSupplierScreen(
-                                                      listItems:
-                                                          partyServices[index]),
-                                            ),
-                                          ); // Chama o callback após retornar
+                                child: Container(
+                                  color: AppColors.greyback,
+                                  child: Row(
+                                    children: List.generate(
+                                      // Supondo que você tenha uma lista chamada `items` para esta Row
+                                      Listpremiumlist.length,
+                                      (index) {
+                                        return InkWell(
+                                          onTap: () async {
+                                            var resultado =
+                                                await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    TargetSupplierScreen(
+                                                        listItems:
+                                                            Listpremiumlist[
+                                                                index]),
+                                              ),
+                                            ); // Chama o callback após retornar
 
-                                          // 'resultado' contém o parâmetro passado de volta pelo Navigator.pop()
-                                          if (resultado != null) {
-                                            _onItemTapped(resultado);
-                                          }
-                                        },
-                                        child: Container(
-                                          color: AppColors.firstPurple,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.0), // Define o raio das bordas
-                                                  child: Image.asset(
-                                                    partyServices[index]
-                                                        ['imagesUrl'][0],
-                                                    width: 130.0,
-                                                    height: 130.0,
-                                                    fit: BoxFit
-                                                        .cover, // Define o modo de redimensionamento
+                                            // 'resultado' contém o parâmetro passado de volta pelo Navigator.pop()
+                                            if (resultado != null) {
+                                              _onItemTapped(resultado);
+                                            }
+                                          },
+                                          child: Container(
+                                            color: AppColors.firstPurple,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0), // Define o raio das bordas
+                                                    child: Image.asset(
+                                                      Listpremiumlist[index]
+                                                          ['imagesUrl'][0],
+                                                      width: 130.0,
+                                                      height: 130.0,
+                                                      fit: BoxFit
+                                                          .cover, // Define o modo de redimensionamento
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  partyServices[index]['title'],
-                                                  style: const TextStyle(
-                                                    color: AppColors.firstGreen,
-                                                    fontSize: 15.0,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10),
-                                                child: SizedBox(
-                                                  width: 130.0,
-                                                  height: 100.0,
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
                                                   child: Text(
-                                                    partyServices[index]
-                                                        ['description'],
+                                                    Listpremiumlist[index]
+                                                        ['title'],
                                                     style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14.0,
+                                                      color:
+                                                          AppColors.firstGreen,
+                                                      fontSize: 15.0,
                                                     ),
                                                     textAlign: TextAlign.start,
-                                                    overflow: TextOverflow
-                                                        .ellipsis, // Adiciona "..." ao exceder o espaço disponível
-                                                    maxLines: 4,
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 10.0,
-                                              ),
-                                            ],
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  child: SizedBox(
+                                                    width: 130.0,
+                                                    height: 100.0,
+                                                    child: Text(
+                                                      Listpremiumlist[index]
+                                                          ['description'],
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14.0,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      overflow: TextOverflow
+                                                          .ellipsis, // Adiciona "..." ao exceder o espaço disponível
+                                                      maxLines: 4,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                      // Na HomeScreen, ao construir HomeTile ou VerticalTile
-                                    },
+                                        );
+                                        // Na HomeScreen, ao construir HomeTile ou VerticalTile
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
@@ -279,21 +316,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                     true, // Importante para ListView dentro de Column
                                 physics:
                                     const NeverScrollableScrollPhysics(), // Desativa o scroll próprio da ListView
-                                itemCount: partyServices
+                                itemCount: resultSearch
                                     .length, // Supondo que exista uma lista `listItems`
                                 itemBuilder: (context, index) {
                                   return
                                       // Na HomeScreen, ao construir HomeTile ou VerticalTile
                                       ListTile(
                                     leading: Image.asset(
-                                      partyServices[index]['imagesUrl'][0],
+                                      resultSearch[index]['imagesUrl'][0],
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
                                     ),
-                                    title: Text(partyServices[index]['title']),
+                                    title: Text(resultSearch[index]['title']),
                                     subtitle: Text(
-                                      partyServices[index]['description'],
+                                      resultSearch[index]['description'],
                                       overflow: TextOverflow
                                           .ellipsis, // Adiciona "..." ao exceder o espaço disponível
                                       maxLines: 2,
@@ -307,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             builder: (context) =>
                                                 TargetSupplierScreen(
                                                     listItems:
-                                                        partyServices[index]),
+                                                        resultSearch[index]),
                                           ),
                                         ); // Chama o callback após retornar
 
@@ -326,8 +363,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  FavoriteScreen(),
-                  ConfigureScreen(),
+                  const FavoriteScreen(),
+                  const ConfigureScreen(),
                 ],
               ),
             ),

@@ -1,9 +1,11 @@
+import 'package:atinei_appl/components/button_socialmedia.dart';
 import 'package:atinei_appl/components/custom_button.dart';
 import 'package:atinei_appl/components/custom_textfield.dart';
 import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:atinei_appl/widget/auth_check.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -158,8 +160,39 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               }),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
+                        padding: const EdgeInsets.only(top: 30.0),
                         child: Divider(color: Colors.grey[300]),
+                      ),
+                      ButtonSocialmedia(
+                        buttonText: "Login com Google",
+                        backgroundColor: AppColors.firstBlue,
+                        onPressed: () async {
+                          try {
+                            setState(() => loading = true);
+                            final user = await context
+                                .read<AuthService>()
+                                .signInWithGoogle();
+                            if (user != null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AuthCheck()),
+                              );
+                            } else {
+                              throw AuthException(
+                                  'Autenticação com Google falhou');
+                            }
+                          } catch (e) {
+                            setState(() => loading = false);
+                            final errorMessage = e is AuthException
+                                ? e.message
+                                : 'Ocorreu um erro durante o login.';
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(errorMessage)));
+                          }
+                        },
+                        simbolmedia: FontAwesomeIcons.google,
+                        widthMain: 230.0,
                       ),
                     ],
                   ),

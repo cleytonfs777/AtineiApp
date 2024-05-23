@@ -2,9 +2,13 @@ import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:atinei_appl/components/button_with_icon.dart';
 import 'package:atinei_appl/components/dynamic_rating.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
+import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TargetSupplierScreen extends StatefulWidget {
   final Map<String, dynamic> listItems;
@@ -28,11 +32,50 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
 
   List<String> categories = FornecedoresData.categories;
 
-  bool isFavorite = false; // Inicializa como não favorito
+  late bool isFavorite; // Inicializa como não favorito
+
+  Future<void> openWhatsApp(String phoneNumber, [String message = ""]) async {
+    final Uri whatsappUri = Uri(
+      scheme: 'https',
+      host: 'api.whatsapp.com',
+      path: 'send',
+      queryParameters: {
+        'phone': phoneNumber,
+        'text': message,
+      },
+    );
+
+    if (!await launchUrl(whatsappUri)) {
+      throw 'Could not launch $whatsappUri';
+    }
+  }
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+
+    if (!await launchUrl(launchUri)) {
+      throw 'Could not launch $launchUri';
+    }
+  }
+
+  void shareContent(String text, String subject, [List<String>? files]) {
+    Share.share(text,
+        subject: subject,
+        sharePositionOrigin:
+            const Rect.fromLTWH(0, 0, 100, 100) // Opcional: posição para iPads
+        );
+  }
 
   @override
-  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<AuthService>(context);
+    List<dynamic> favorites = user.userData['favorites'] ?? [];
+
+    isFavorite = favorites.contains(widget.listItems['id']);
+
     return Scaffold(
       body: Column(
         children: [
@@ -188,11 +231,18 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                                             shape: const CircleBorder(),
                                             padding: const EdgeInsets.all(0.0),
                                           ),
-                                          onPressed: () {
-                                            setState(() {
+                                          onPressed: () async {
+                                            if (isFavorite) {
                                               isFavorite =
-                                                  !isFavorite; // Alterna o estado de isFavorite
-                                            });
+                                                  await user.modifyFavorites(
+                                                      widget.listItems['id'],
+                                                      "remove");
+                                            } else {
+                                              isFavorite =
+                                                  await user.modifyFavorites(
+                                                      widget.listItems['id'],
+                                                      "add");
+                                            }
                                           },
                                         ),
                                       ],
@@ -223,7 +273,9 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                               IconButton(
                                 icon: const Icon(Icons
                                     .share), // Define o ícone de compartilhamento
-                                onPressed: () {},
+                                onPressed: () => shareContent(
+                                    'Confira este conteúdo incrível!',
+                                    'Veja Isso!'),
                               )
                             ]),
                           ],
@@ -265,7 +317,10 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                             child: ButtonWithIcon(
                                 buttonText: "Falar pelo chat",
                                 backgroundColor: AppColors.firstGreen,
-                                onPressed: () {},
+                                onPressed: () => openWhatsApp(
+                                      widget.listItems['contactwhats'],
+                                      'Olá! Gostaria de mais informações sobre seus serviços colocados no Atinei.',
+                                    ),
                                 icon: Icons.message_outlined),
                           ),
                           Padding(
@@ -273,7 +328,8 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                             child: ButtonWithIcon(
                                 buttonText: "Ligar para o prestador",
                                 backgroundColor: AppColors.firstGreen,
-                                onPressed: () {},
+                                onPressed: () => makePhoneCall(
+                                    widget.listItems['contactwhats']),
                                 icon: Icons.phone_sharp),
                           ),
                           Padding(
@@ -281,9 +337,8 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                             child: ButtonWithIcon(
                               buttonText: "Falar pelo whatsapp",
                               backgroundColor: AppColors.firstGreen,
-                              onPressed: () {
-                                // Aqui você pode adicionar a lógica para abrir uma conversa do WhatsApp, por exemplo
-                              },
+                              onPressed: () => openWhatsApp(
+                                  widget.listItems['contactwhats']),
                               icon: FontAwesomeIcons
                                   .whatsapp, // Correção: passar apenas o IconData
                             ),

@@ -1,3 +1,4 @@
+import 'package:atinei_appl/screens/photo_detail.dart';
 import 'package:atinei_appl/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -156,18 +157,28 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
           const SizedBox(
             height: 40.0,
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.asset(
-              'images/exemp.png', // Substitua pelo caminho do seu logotipo
-              height: 160,
-              fit: BoxFit.cover,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PhotoDetail()),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child: Image.network(
+                user.userData['photo_url'] ??
+                    'https://firebasestorage.googleapis.com/v0/b/atinei-appl.appspot.com/o/capa.png?alt=media&token=daadd388-85e3-4ef4-a48e-0dc521848c7f', // Substitua pelo caminho do seu logotipo
+                height: 160,
+                width: 160,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              user.userData['name'] ?? "Falha",
+              user.userData['name'] ?? "",
               style:
                   const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
@@ -175,7 +186,7 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              user.userData['email'] ?? "Falha",
+              user.userData['email'] ?? "",
               style:
                   const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),

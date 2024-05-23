@@ -20,8 +20,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final favoritas = context.read<AuthService>().userData['favorites'] ?? [];
-
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -60,8 +58,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             ),
           ),
         ),
-        SliverToBoxAdapter(
-          child: BoxFavorite(supplierFavorite: favoritas),
+        const SliverToBoxAdapter(
+          child: BoxFavorite(),
         ),
       ],
     );

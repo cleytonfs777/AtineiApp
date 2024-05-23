@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthException implements Exception {
   String message;
@@ -9,9 +13,12 @@ class AuthException implements Exception {
 
 class AuthService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   User? usuario;
   bool isLoading = true;
   Map<String, dynamic> userData = {};
+  String url_general =
+      "https://firebasestorage.googleapis.com/v0/b/atinei-appl.appspot.com/o/capa.png?alt=media&token=daadd388-85e3-4ef4-a48e-0dc521848c7f";
 
   AuthService() {
     _authCheck();
@@ -60,6 +67,56 @@ class AuthService extends ChangeNotifier {
     } catch (e) {
       print("Erro ao salvar UserData: $e");
     }
+  }
+
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount!.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      final User? user = authResult.user;
+
+      if (user != null) {
+        // Fetch user data from Firestore or initialize it if new user
+        await _fetchOrUpdateUserData(user);
+        usuario = user;
+        notifyListeners();
+      }
+      return user;
+    } catch (e) {
+      print("Erro ao autenticar com Google: $e");
+      throw AuthException('Falha ao autenticar com Google');
+    }
+  }
+
+  Future<void> _fetchOrUpdateUserData(User user) async {
+    final userDoc =
+        FirebaseFirestore.instance.collection('clients').doc(user.uid);
+    var doc = await userDoc.get();
+    if (doc.exists) {
+      userData = doc.data()!;
+    } else {
+      // Assuming some default data needs to be written for a new user
+      userData = {
+        "email": user.email,
+        "favorites": [],
+        "name": user.displayName,
+        "phone": "",
+        "photo_url": user.photoURL,
+        "type": "client",
+      };
+      await userDoc.set(userData);
+    }
+    notifyListeners();
   }
 
   registrarFornecedor(
@@ -123,7 +180,11 @@ class AuthService extends ChangeNotifier {
 
   logout() async {
     await _auth.signOut();
-    _getUser();
+    if (_googleSignIn.currentUser != null) {
+      // Verifica se há uma sessão do Google ativa
+      await _googleSignIn.signOut(); // Faz logout do Google SignIn
+    }
+    _getUser(); // Chama _getUser para atualizar o estado interno
   }
 
   Future<void> reauthenticate(String email, String password) async {
@@ -174,5 +235,90 @@ class AuthService extends ChangeNotifier {
         throw AuthException('Erro desconhecido ao deletar conta.');
       }
     }
+  }
+
+  // FUNCTIONS FOTOS
+
+  Future<String> uploadImageToFirebase(File imageFile) async {
+    String filePath =
+        'images/${DateTime.now()}_${imageFile.path.split('/').last}';
+    Reference ref = FirebaseStorage.instance.ref().child(filePath);
+    UploadTask uploadTask = ref.putFile(imageFile);
+    await uploadTask;
+    String downloadUrl = await ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<void> updatePhotoUrl(String newUrl) async {
+    userData['photo_url'] = newUrl; // Atualiza localmente
+
+    // Salva a nova URL no Firestore
+    await FirebaseFirestore.instance
+        .collection('clients')
+        .doc(_auth.currentUser!.uid)
+        .update({'photo_url': newUrl});
+
+    notifyListeners(); // Notifica os ouvintes sobre a mudança
+  }
+
+  Future<void> removePhoto() async {
+    debugPrint("Acessando função remove photo....................");
+    if (userData['photo_url'] != null && userData['photo_url'].isNotEmpty) {
+      String fileUrl = userData['photo_url'];
+      Reference ref = FirebaseStorage.instance.refFromURL(fileUrl);
+
+      try {
+        await ref.delete();
+        // Após deletar do Storage, atualize Firestore
+        await FirebaseFirestore.instance
+            .collection('clients')
+            .doc(_auth.currentUser!.uid)
+            .update({'photo_url': url_general});
+        userData['photo_url'] = url_general;
+
+        notifyListeners();
+      } catch (e) {
+        print("Erro ao deletar imagem do Storage: $e");
+        throw e; // Lança o erro para ser tratado pelo widget
+      }
+    }
+  }
+
+// FUNCTIONS FAVORITE
+
+  Future<bool> modifyFavorites(int itemId, String action) async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+    var docRef = FirebaseFirestore.instance.collection('clients').doc(userId);
+
+    DocumentSnapshot docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      List<dynamic> favorites = docSnapshot.get('favorites') ?? [];
+
+      if (action == 'add') {
+        if (!favorites.contains(itemId)) {
+          // Se o itemId não estiver na lista, adicione-o
+          await docRef.update({
+            'favorites': FieldValue.arrayUnion([itemId])
+          });
+          userData['favorites'].add(itemId);
+          notifyListeners();
+          return true;
+        }
+        return false;
+      } else if (action == 'remove') {
+        if (favorites.contains(itemId)) {
+          // Se o itemId estiver na lista, remova-o
+          await docRef.update({
+            'favorites': FieldValue.arrayRemove([itemId])
+          });
+          userData['favorites'].remove(itemId);
+          notifyListeners();
+          return false;
+        }
+        return true;
+      }
+    }
+    return false; // Retorne false se o documento não existir
   }
 }

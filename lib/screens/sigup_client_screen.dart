@@ -1,7 +1,7 @@
 import 'package:atinei_appl/components/button_socialmedia.dart';
 import 'package:atinei_appl/components/custom_button.dart';
 import 'package:atinei_appl/components/custom_textfield.dart';
-import 'package:atinei_appl/screens/login_screen.dart';
+
 import 'package:atinei_appl/screens/termos_uso_screen.dart';
 import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
@@ -231,11 +231,18 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                                   toggleRememberMe(!isRememberMeChecked),
                               child: InkWell(
                                 onTap: () {
-                                  // Navega para a tela de Termos de Uso
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        const TermoUsoScreen(),
-                                  ));
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TermoUsoScreen(onAccept: () {
+                                        Navigator.pop(
+                                            context); // Retorna para a tela anterior
+                                        toggleRememberMe(
+                                            true); // Seta isRememberMeChecked como true
+                                      }),
+                                    ),
+                                  );
                                 },
                                 child: RichText(
                                   text: TextSpan(
@@ -256,8 +263,15 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const LoginScreen()),
+                                                builder: (context) =>
+                                                    TermoUsoScreen(
+                                                        onAccept: () {
+                                                  Navigator.pop(
+                                                      context); // Retorna para a tela anterior
+                                                  toggleRememberMe(
+                                                      true); // Seta isRememberMeChecked como true
+                                                }),
+                                              ),
                                             );
                                           },
                                       ),
@@ -354,7 +368,37 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                       ButtonSocialmedia(
                         buttonText: "Login com Google",
                         backgroundColor: AppColors.firstBlue,
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            setState(() => loading = true);
+                            final user = await context
+                                .read<AuthService>()
+                                .signInWithGoogle();
+                            if (!mounted) {
+                              return; // Adiciona esta linha para verificar se o estado ainda existe
+                            }
+                            if (user != null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const AuthCheck()),
+                              );
+                            } else {
+                              throw AuthException(
+                                  'Autenticação com Google falhou');
+                            }
+                          } catch (e) {
+                            if (!mounted) {
+                              return; // Adiciona esta linha para verificar se o estado ainda existe
+                            }
+                            setState(() => loading = false);
+                            final errorMessage = e is AuthException
+                                ? e.message
+                                : 'Ocorreu um erro durante o login.';
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(errorMessage)));
+                          }
+                        },
                         simbolmedia: FontAwesomeIcons.google,
                         widthMain: 230.0,
                       ),
