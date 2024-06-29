@@ -19,6 +19,9 @@ class _HomeScreenState extends State<HomeScreen> {
   double sizeIconBottom = 100.0;
   double sizeIcon = 30.0;
 
+  // Filtro é visível ou não
+  bool _isSliverVisible = false;
+
   //Controle de fluxos
   int selectedIndex = 0; // Inicializa sem nenhum botão selecionado
   int currentPage = 0;
@@ -131,81 +134,111 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                            children: List.generate(
-                              categories.length,
-                              (index) => Container(
-                                padding: const EdgeInsets.fromLTRB(
-                                    5.0, 0, 5.0, 10.0),
-                                child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedIndex =
-                                          index; // Atualiza o índice do botão selecionado
-                                    });
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide
-                                        .none, // Remove a borda do botão
-                                    backgroundColor: selectedIndex == index
-                                        ? Colors.purple
-                                        : Colors
-                                            .transparent, // Fundo roxo se selecionado
-                                  ),
-                                  child: Text(
-                                    categories[index],
-                                    style: TextStyle(
-                                      color: selectedIndex == index
-                                          ? Colors.white
-                                          : Colors
-                                              .grey, // Texto branco se selecionado, senão cinza
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Center(
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isSliverVisible = !_isSliverVisible;
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.tune,
+                                      color: AppColors.firstGreen,
+                                      size: 40,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
+                              ...List.generate(
+                                categories.length,
+                                (index) => Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      5.0, 0, 5.0, 10.0),
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        selectedIndex =
+                                            index; // Atualiza o índice do botão selecionado
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide
+                                          .none, // Remove a borda do botão
+                                      backgroundColor: selectedIndex == index
+                                          ? Colors.purple
+                                          : Colors
+                                              .transparent, // Fundo roxo se selecionado
+                                    ),
+                                    child: Text(
+                                      categories[index],
+                                      style: TextStyle(
+                                        color: selectedIndex == index
+                                            ? Colors.white
+                                            : Colors
+                                                .grey, // Texto branco se selecionado, senão cinza
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: SizedBox(
-                            width: 40.0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                const Text(
-                                  "Organizado por: ",
-                                  style: TextStyle(fontSize: 13),
-                                  textAlign: TextAlign.left,
-                                ),
-                                PopupMenuButton<String>(
-                                  onSelected: (String value) {
-                                    // Lógica de seleção
-                                  },
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry<String>>[
-                                    const PopupMenuItem<String>(
-                                      value: 'a-z',
-                                      child: Text('A-Z'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'addrecently',
-                                      child: Text('Adicionado recentemente'),
-                                    ),
-                                    const PopupMenuItem<String>(
-                                      value: 'lastconversations',
-                                      child: Text('Últimas conversas'),
-                                    ),
-                                    // Adicione mais opções conforme necessário
-                                  ],
-                                ),
-                              ],
+                      if (_isSliverVisible)
+                        const SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SizedBox(
+                              height: 80,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Filtros Avançados",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.firstGreen),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    "Selecione seu DDD",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.firstGreen),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  // PopupMenuButton<String>(
+                                  //   onSelected: (String value) {
+                                  //     // Lógica de seleção
+                                  //   },
+                                  //   itemBuilder: (BuildContext context) =>
+                                  //       <PopupMenuEntry<String>>[
+                                  //     const PopupMenuItem<String>(
+                                  //       value: 'a-z',
+                                  //       child: Text('A-Z'),
+                                  //     ),
+                                  //     const PopupMenuItem<String>(
+                                  //       value: 'addrecently',
+                                  //       child: Text('Adicionado recentemente'),
+                                  //     ),
+                                  //     const PopupMenuItem<String>(
+                                  //       value: 'lastconversations',
+                                  //       child: Text('Últimas conversas'),
+                                  //     ),
+                                  //     // Adicione mais opções conforme necessário
+                                  //   ],
+                                  // ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
                       SliverToBoxAdapter(
                         child: SingleChildScrollView(
                           child: Column(

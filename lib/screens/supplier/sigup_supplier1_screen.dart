@@ -170,7 +170,7 @@ class _SigupSupplier1ScreenState extends State<SigupSupplier1Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("1-4")],
+                      children: [Text("1-7")],
                     )
                   ],
                 ),

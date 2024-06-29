@@ -3,6 +3,7 @@ import 'package:atinei_appl/data/supplier_form_data.dart';
 import 'package:atinei_appl/screens/supplier/sigup_supplier3_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SigupSupplier2Screen extends StatefulWidget {
   final SupplierFormData supplierFormData;
@@ -183,18 +184,35 @@ class _SigupSupplier2ScreenState extends State<SigupSupplier2Screen> {
                             return null;
                           },
                         ),
-                        CustomTextField(
-                          placeholder: "Telefone",
-                          controller: _telefoneController,
-                          keyboardtype: TextInputType.phone,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Informe o telefone';
-                            } else if (value.length < 10) {
-                              return 'Telefone inválido';
-                            }
-                            return null;
-                          },
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: TextFormField(
+                            controller: _telefoneController,
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              fillColor: AppColors.fundoTextField,
+                              filled: true,
+                              hintText: "Telefone",
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: AppColors.bordaTextField),
+                                borderRadius: BorderRadius.circular(5.0),
+                              ),
+                            ),
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(
+                                  15), // Limita a 15 caracteres, considerando os caracteres da máscara.
+                            ],
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Informe o telefone';
+                              } else if (value.length < 10 &&
+                                  value.length > 11) {
+                                return 'Telefone inválido';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
                       ]),
                     ),
@@ -241,12 +259,13 @@ class _SigupSupplier2ScreenState extends State<SigupSupplier2Screen> {
                                 _telefoneController.text;
                             print(widget.supplierFormData);
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigupSupplier3Screen(
-                                    supplierFormData: widget.supplierFormData,
-                                  ),
-                                ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SigupSupplier3Screen(
+                                  supplierFormData: widget.supplierFormData,
+                                ),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -276,7 +295,7 @@ class _SigupSupplier2ScreenState extends State<SigupSupplier2Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("2-4")],
+                      children: [Text("2-7")],
                     )
                   ],
                 ),

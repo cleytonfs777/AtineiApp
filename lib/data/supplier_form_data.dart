@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 class SupplierFormData {
   String razaoSocial;
   String cnpj;
@@ -11,8 +13,9 @@ class SupplierFormData {
   String cpf;
   String email;
   String senha;
-  String atividades;
-  List<String> fotos;
+  String descricao;
+  List<String> categorias;
+  List<XFile> fotos;
 
   SupplierFormData({
     this.razaoSocial = '',
@@ -27,7 +30,8 @@ class SupplierFormData {
     this.cpf = '',
     this.email = '',
     this.senha = '',
-    this.atividades = '',
-    this.fotos = const [],
-  });
+    this.descricao = '',
+    this.categorias = const [],
+    List<XFile>? fotos,
+  }) : fotos = fotos ?? [];
 }

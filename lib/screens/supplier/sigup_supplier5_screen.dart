@@ -5,16 +5,16 @@ import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SigupSupplier3Screen extends StatefulWidget {
+class SigupSupplier5Screen extends StatefulWidget {
   final SupplierFormData supplierFormData;
 
-  SigupSupplier3Screen({super.key, required this.supplierFormData});
+  SigupSupplier5Screen({super.key, required this.supplierFormData});
 
   @override
-  State<SigupSupplier3Screen> createState() => _SigupSupplier3ScreenState();
+  State<SigupSupplier5Screen> createState() => _SigupSupplier5ScreenState();
 }
 
-class _SigupSupplier3ScreenState extends State<SigupSupplier3Screen> {
+class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
   final TextEditingController _respEmpresaController = TextEditingController();
 
   final TextEditingController _cpfController = TextEditingController();
@@ -242,7 +242,7 @@ class _SigupSupplier3ScreenState extends State<SigupSupplier3Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("3-7")],
+                      children: [Text("5-7")],
                     )
                   ],
                 ),

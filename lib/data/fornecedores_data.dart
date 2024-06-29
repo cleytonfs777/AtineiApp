@@ -13,6 +13,19 @@ class FornecedoresData {
     'Video',
     'Iluminação'
   ];
+
+  static const List<String> categoriePure = [
+    'Som',
+    'Palco',
+    'Fotografia',
+    'Buffet',
+    'Cerimonial',
+    'Espaço para Eventos',
+    'Barista',
+    'Floricultura',
+    'Video',
+    'Iluminação'
+  ];
   static const List<Map<String, dynamic>> partyServices = [
     {
       "id": 1,
