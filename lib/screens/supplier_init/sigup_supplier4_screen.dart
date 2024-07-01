@@ -1,11 +1,13 @@
 import 'dart:io';
-import 'package:atinei_appl/screens/supplier/sigup_supplier5_screen.dart';
+import 'package:atinei_appl/screens/supplier_init/sigup_supplier5_screen.dart';
+import 'package:atinei_appl/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:atinei_appl/data/supplier_form_data.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:atinei_appl/data/fornecedores_data.dart';
+import 'package:provider/provider.dart';
 
 class SigupSupplier4Screen extends StatefulWidget {
   final SupplierFormData supplierFormData;
@@ -35,6 +37,12 @@ class _SigupSupplier4ScreenState extends State<SigupSupplier4Screen> {
         widget.supplierFormData.fotos.add(pickedFile);
       });
     }
+  }
+
+  void salvaImagens() async {
+    await Provider.of<AuthService>(context, listen: false)
+        .uploadFiles(widget.supplierFormData.fotos);
+    debugPrint("Imagens enviadas com sucesso");
   }
 
   void _removeImage(int index) {
@@ -357,7 +365,7 @@ class _SigupSupplier4ScreenState extends State<SigupSupplier4Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("4-7")],
+                      children: [Text("4-6")],
                     )
                   ],
                 ),

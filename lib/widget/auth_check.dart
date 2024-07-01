@@ -1,5 +1,6 @@
 import 'package:atinei_appl/screens/home_screen.dart';
 import 'package:atinei_appl/screens/prelogin_screen.dart';
+import 'package:atinei_appl/screens/supplier_main/home_screen_supplier.dart';
 import 'package:atinei_appl/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,13 @@ class _AuthCheckState extends State<AuthCheck> {
       return const PreloginScreen();
     } else {
       auth.setUserInit();
-      return const HomeScreen();
+      if (auth.userData['type'] == 'client') {
+        return const HomeScreen();
+      } else if (auth.userData['type'] == 'supplier') {
+        return const HomeScreenSupplier();
+      } else {
+        return const PreloginScreen();
+      }
     }
   }
 

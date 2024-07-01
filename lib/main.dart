@@ -1,4 +1,5 @@
 import 'package:atinei_appl/my_app.dart';
+import 'package:atinei_appl/providers/supplier_provider.dart';
 import 'package:atinei_appl/repository/FavoriteGroup.dart';
 import 'package:atinei_appl/service/auth_service.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -26,6 +27,7 @@ void main() async {
             create: (context) => FavoritasRepository(
                   auth: context.read<AuthService>(),
                 )),
+        ChangeNotifierProvider(create: (context) => SupplierProvider()),
       ],
       child: const MyApp(),
     ),

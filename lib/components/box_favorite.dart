@@ -1,16 +1,13 @@
-import 'package:atinei_appl/data/fornecedores_data.dart';
-import 'package:atinei_appl/screens/targetsuplier_screen.dart';
 import 'package:atinei_appl/service/auth_service.dart';
-import 'package:atinei_appl/styles/app_colors.dart';
+import 'package:atinei_appl/screens/targetsuplier_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 class BoxFavorite extends StatelessWidget {
-  const BoxFavorite({super.key});
+  final List<Map<String, dynamic>> partyServices;
 
-  final List<Map<String, dynamic>> partyServices =
-      FornecedoresData.partyServices;
+  const BoxFavorite({required this.partyServices, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +15,8 @@ class BoxFavorite extends StatelessWidget {
     final List<dynamic> favorites = user.userData['favorites'] ?? [];
 
     List<Map<String, dynamic>> filteredServices = partyServices
-        .where((service) => favorites.contains(service['id'] as int))
-        .toList(); // Cast 'service['id']' para int se não for garantido como int
+        .where((service) => favorites.contains(service['id'] as String))
+        .toList(); // Cast 'service['id']' para String
 
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -47,7 +44,7 @@ class BoxFavorite extends StatelessWidget {
                 ),
                 child: Stack(
                   children: [
-                    Image.asset(
+                    Image.network(
                       filteredServices[index]['imagesUrl'][0],
                       fit: BoxFit.cover,
                       width: double.infinity,
@@ -57,7 +54,7 @@ class BoxFavorite extends StatelessWidget {
                       top: 10,
                       right: 10,
                       child: IconButton(
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.favorite,
                           color: Colors.red,
                           size: 44,
@@ -84,19 +81,13 @@ class BoxFavorite extends StatelessWidget {
                             ],
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
-                            stops: [
-                              0.5,
-                              0.8,
-                              1.0
-                            ], // Ponto de transição das cores
+                            stops: [0.5, 0.8, 1.0],
                           ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 30,
-                            ),
+                            const SizedBox(height: 30),
                             Text(
                               filteredServices[index]['title'],
                               style: const TextStyle(
@@ -113,7 +104,7 @@ class BoxFavorite extends StatelessWidget {
                               ),
                             ),
                             IgnorePointer(
-                              ignoring: true, // Desativa a interação
+                              ignoring: true,
                               child: RatingBar.builder(
                                 itemBuilder: (context, index) => Icon(
                                   Icons.star,

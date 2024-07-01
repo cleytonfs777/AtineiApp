@@ -1,6 +1,6 @@
 import 'package:atinei_appl/components/custom_textfield.dart';
 import 'package:atinei_appl/data/supplier_form_data.dart';
-import 'package:atinei_appl/screens/supplier/sigup_supplier2_screen.dart';
+import 'package:atinei_appl/screens/supplier_init/sigup_supplier2_screen.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -170,7 +170,7 @@ class _SigupSupplier1ScreenState extends State<SigupSupplier1Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("1-7")],
+                      children: [Text("1-6")],
                     )
                   ],
                 ),

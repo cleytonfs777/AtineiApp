@@ -1,14 +1,13 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:atinei_appl/components/button_with_icon.dart';
 import 'package:atinei_appl/components/dynamic_rating.dart';
-import 'package:atinei_appl/data/fornecedores_data.dart';
-import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:atinei_appl/service/auth_service.dart';
 
 class TargetSupplierScreen extends StatefulWidget {
   final Map<String, dynamic> listItems;
@@ -22,17 +21,12 @@ class TargetSupplierScreen extends StatefulWidget {
 class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
   // Medidas Padrão
   double sizeIconBottom = 100.0;
-
   double sizeIcon = 30.0;
-
   //Controle de fluxos
   int selectedIndex = 0;
-  // Inicializa sem nenhum botão selecionado
   int currentPage = 0;
 
-  List<String> categories = FornecedoresData.categories;
-
-  late bool isFavorite; // Inicializa como não favorito
+  late bool isFavorite;
 
   Future<void> openWhatsApp(String phoneNumber, [String message = ""]) async {
     final Uri whatsappUri = Uri(
@@ -115,7 +109,7 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(
-                categories.length,
+                widget.listItems['categories'].length,
                 (index) => Container(
                   padding: const EdgeInsets.fromLTRB(5.0, 0, 5.0, 10.0),
                   child: OutlinedButton(
@@ -126,19 +120,11 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                       });
                     },
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide.none, // Remove a borda do botão
-                      backgroundColor: selectedIndex == index
-                          ? Colors.purple
-                          : Colors.transparent, // Fundo roxo se selecionado
-                    ),
+                        side: BorderSide.none, // Remove a borda do botão
+                        backgroundColor: Colors.purple),
                     child: Text(
-                      categories[index],
-                      style: TextStyle(
-                        color: selectedIndex == index
-                            ? Colors.white
-                            : Colors
-                                .grey, // Texto branco se selecionado, senão cinza
-                      ),
+                      widget.listItems['categories'][index],
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -160,7 +146,7 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                               15.0), // ajuste o valor de acordo com a quantidade de arredondamento desejada
                           child: AnotherCarousel(
                             images: widget.listItems['imagesUrl'].map((url) {
-                              return Image.asset(url);
+                              return Image.network(url);
                             }).toList(),
                             dotSize: 4.0,
                             dotSpacing: 15.0,
@@ -179,7 +165,6 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                 SliverToBoxAdapter(
                   child: Container(
                     // Defina a altura e a largura conforme necessário
-
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       // Define o gradiente
@@ -206,46 +191,51 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    height: 30,
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          widget.listItems['title'],
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18.0,
-                                            color: AppColors.firstPurple,
+                                    child: Container(
+                                      width: 210,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              widget.listItems['title'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18.0,
+                                                color: AppColors.firstPurple,
+                                              ),
+                                              textAlign: TextAlign.start,
+                                            ),
                                           ),
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        IconButton(
-                                          icon: Icon(isFavorite
-                                              ? Icons.favorite
-                                              : Icons.favorite_border),
-                                          color: Colors.red,
-                                          iconSize:
-                                              35, // Ajuste o tamanho do ícone aqui
+                                          IconButton(
+                                            icon: Icon(isFavorite
+                                                ? Icons.favorite
+                                                : Icons.favorite_border),
+                                            color: Colors.red,
+                                            iconSize:
+                                                35, // Ajuste o tamanho do ícone aqui
 
-                                          style: IconButton.styleFrom(
-                                            foregroundColor: Colors.red,
-                                            shape: const CircleBorder(),
-                                            padding: const EdgeInsets.all(0.0),
+                                            style: IconButton.styleFrom(
+                                              foregroundColor: Colors.red,
+                                              shape: const CircleBorder(),
+                                              padding:
+                                                  const EdgeInsets.all(0.0),
+                                            ),
+                                            onPressed: () async {
+                                              if (isFavorite) {
+                                                isFavorite =
+                                                    await user.modifyFavorites(
+                                                        widget.listItems['id'],
+                                                        "remove");
+                                              } else {
+                                                isFavorite =
+                                                    await user.modifyFavorites(
+                                                        widget.listItems['id'],
+                                                        "add");
+                                              }
+                                            },
                                           ),
-                                          onPressed: () async {
-                                            if (isFavorite) {
-                                              isFavorite =
-                                                  await user.modifyFavorites(
-                                                      widget.listItems['id'],
-                                                      "remove");
-                                            } else {
-                                              isFavorite =
-                                                  await user.modifyFavorites(
-                                                      widget.listItems['id'],
-                                                      "add");
-                                            }
-                                          },
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Text(
@@ -253,7 +243,7 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                                     textAlign: TextAlign.start,
                                   ),
                                   Text(
-                                    "${widget.listItems['location']['neigbor']}, ${widget.listItems['location']['city']} - ${widget.listItems['location']['state']}",
+                                    "${widget.listItems['location']['neighbor']}, ${widget.listItems['location']['city']} - ${widget.listItems['location']['state']}",
                                     textAlign: TextAlign.start,
                                   ),
                                   Text(
@@ -306,12 +296,14 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          const SizedBox(height: 30.0),
                           Text(
                             widget.listItems['description_long'],
                             style: TextStyle(
                                 fontSize: 17.0, color: Colors.grey[500]),
                             textAlign: TextAlign.justify,
                           ),
+                          const SizedBox(height: 30.0),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: ButtonWithIcon(

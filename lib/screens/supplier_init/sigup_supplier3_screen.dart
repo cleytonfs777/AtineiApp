@@ -1,30 +1,27 @@
 import 'package:atinei_appl/components/custom_textfield.dart';
 import 'package:atinei_appl/data/supplier_form_data.dart';
-import 'package:atinei_appl/screens/supplier/sigup_supplier4_screen.dart';
+import 'package:atinei_appl/screens/supplier_init/sigup_supplier4_screen.dart';
+import 'package:atinei_appl/service/auth_service.dart';
 import 'package:atinei_appl/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
-class SigupSupplier5Screen extends StatefulWidget {
+class SigupSupplier3Screen extends StatefulWidget {
   final SupplierFormData supplierFormData;
 
-  SigupSupplier5Screen({super.key, required this.supplierFormData});
+  SigupSupplier3Screen({super.key, required this.supplierFormData});
 
   @override
-  State<SigupSupplier5Screen> createState() => _SigupSupplier5ScreenState();
+  State<SigupSupplier3Screen> createState() => _SigupSupplier3ScreenState();
 }
 
-class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
+class _SigupSupplier3ScreenState extends State<SigupSupplier3Screen> {
   final TextEditingController _respEmpresaController = TextEditingController();
-
   final TextEditingController _cpfController = TextEditingController();
-
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _senhaApp1Controller = TextEditingController();
-
   final TextEditingController _senhaApp2Controller = TextEditingController();
-
   final formKey = GlobalKey<FormState>();
 
   void _formatarCpf() {
@@ -37,7 +34,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
         selection: TextSelection.collapsed(offset: texto.length),
       );
     } else if (texto.length == 11) {
-      // Aplica a máscara para 10 dígitos
+      // Aplica a máscara para 11 dígitos
       final formatado =
           '${texto.substring(0, 3)}.${texto.substring(3, 6)}.${texto.substring(6, 9)}-${texto.substring(9, 11)}';
       _cpfController.value = TextEditingValue(
@@ -51,6 +48,50 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
   void initState() {
     super.initState();
     _cpfController.addListener(_formatarCpf);
+  }
+
+  bool _isStrongPassword(String password) {
+    return password.length >= 8 &&
+        RegExp(r'[A-Z]').hasMatch(password) &&
+        RegExp(r'[a-z]').hasMatch(password) &&
+        RegExp(r'[0-9]').hasMatch(password);
+    // RegExp(r'[!@#\$&*~]').hasMatch(password);
+  }
+
+  Future<void> _checkEmailAndProceed() async {
+    if (formKey.currentState!.validate() &&
+        _senhaApp1Controller.text == _senhaApp2Controller.text) {
+      final authService = Provider.of<AuthService>(context, listen: false);
+      final isRegistered =
+          await authService.isEmailRegistered(_emailController.text);
+
+      if (isRegistered) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('E-mail já está cadastrado.')),
+        );
+      } else {
+        widget.supplierFormData.responsavel = _respEmpresaController.text;
+        widget.supplierFormData.cpf = _cpfController.text;
+        widget.supplierFormData.email = _emailController.text;
+        widget.supplierFormData.senha = _senhaApp1Controller.text;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SigupSupplier4Screen(
+              supplierFormData: widget.supplierFormData,
+            ),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+                'Verifique se as senhas são iguais e se os campos estão corretos.')),
+      );
+    }
   }
 
   @override
@@ -82,7 +123,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                           keyboardtype: TextInputType.name,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Informa o responsável pela empresa';
+                              return 'Informe o responsável pela empresa';
                             }
                             return null;
                           },
@@ -104,7 +145,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                             ),
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(
-                                  14), // Limita a 15 caracteres, considerando os caracteres da máscara.
+                                  14), // Limita a 14 caracteres, considerando os caracteres da máscara.
                             ],
                             validator: (value) {
                               if (value!.isEmpty) {
@@ -122,7 +163,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                           keyboardtype: TextInputType.emailAddress,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Informa o e-mail';
+                              return 'Informe o e-mail';
                             } else if (!value.contains('@')) {
                               return 'E-mail inválido';
                             }
@@ -136,7 +177,9 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                           keyboardtype: TextInputType.visiblePassword,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Informa a senha';
+                              return 'Informe a senha';
+                            } else if (!_isStrongPassword(value)) {
+                              return 'A senha deve ter pelo menos 8 caracteres, \nincluindo letra maiúscula, minúscula e número.';
                             }
                             return null;
                           },
@@ -186,34 +229,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate() &&
-                                _senhaApp1Controller.text ==
-                                    _senhaApp2Controller.text) {
-                              widget.supplierFormData.responsavel =
-                                  _respEmpresaController.text;
-                              widget.supplierFormData.cpf = _cpfController.text;
-                              widget.supplierFormData.email =
-                                  _emailController.text;
-                              widget.supplierFormData.senha =
-                                  _senhaApp1Controller.text;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigupSupplier4Screen(
-                                    supplierFormData: widget.supplierFormData,
-                                  ),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'Verifique se as senhas são iguais e se os campos estão corretos.'),
-                                ),
-                              );
-                            }
-                          },
+                          onPressed: _checkEmailAndProceed,
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 AppColors.firstGreen, // Define a cor de fundo.
@@ -242,7 +258,7 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                     ),
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("5-7")],
+                      children: [Text("3-6")],
                     )
                   ],
                 ),
