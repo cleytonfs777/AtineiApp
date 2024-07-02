@@ -198,6 +198,111 @@ class FornecedoresData {
       "phone": "(31)91234-5678",
       "contactwhats": "+5531996603153",
       "starts": 3.0,
+    },
+    {
+      "id": 6,
+      "isPremium": true,
+      "categories": ["Video", "Fotografia"],
+      "imagesUrl": [
+        "images/fornecedores/foto/5.png",
+        "images/fornecedores/foto/4.png",
+        "images/fornecedores/foto/3.png",
+        "images/fornecedores/foto/2.png",
+        "images/fornecedores/foto/1.png",
+      ],
+      "title": "Filmagem Profissional",
+      "description":
+          "Registre cada momento com nosso serviço de filmagem profissional.",
+      "description_long": """
+  Capture a essência de seus momentos especiais com nosso serviço de fotografia profissional. Entendemos a importância de preservar memórias, por isso oferecemos uma abordagem personalizada para atender às suas necessidades específicas. Nossos fotógrafos são especialistas em capturar a beleza e a emoção de cada evento, seja um casamento, uma festa de aniversário, um encontro familiar ou qualquer outra ocasião importante.
+
+  Utilizamos equipamentos de última geração e técnicas avançadas de fotografia para garantir imagens de alta qualidade que você vai valorizar por toda a vida. Nossa equipe trabalha de forma discreta e profissional, garantindo que todos os momentos significativos sejam capturados sem interromper o fluxo do seu evento. Além disso, oferecemos uma ampla gama de pacotes de fotografia, incluindo sessões pré-evento, cobertura completa do evento e sessões pós-evento, para que você possa escolher o que melhor se adapta ao seu orçamento e às suas necessidades.
+
+  Após o evento, cuidamos da edição profissional das fotos para garantir que cada imagem reflita a melhor luz e composição. Oferecemos também opções de álbuns personalizados, impressões de alta qualidade e galerias online privadas, para que você possa compartilhar suas lembranças com familiares e amigos. Deixe-nos ajudá-lo a contar a história do seu evento através de imagens deslumbrantes que falam mais do que palavras.
+
+  """,
+      "website": "http://www.google.com.br",
+      "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Sapucaí, 303',
+        "neighbor": 'Floresta',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "90.123.456/7890-12",
+      "phone": "(31)91234-5678",
+      "contactwhats": "+5531996603153",
+      "starts": 3.0,
+    },
+    {
+      "id": 7,
+      "isPremium": true,
+      "categories": ["Video", "Fotografia"],
+      "imagesUrl": [
+        "images/fornecedores/foto/5.png",
+        "images/fornecedores/foto/4.png",
+        "images/fornecedores/foto/3.png",
+        "images/fornecedores/foto/2.png",
+        "images/fornecedores/foto/1.png",
+      ],
+      "title": "Filmagem Profissional",
+      "description":
+          "Registre cada momento com nosso serviço de filmagem profissional.",
+      "description_long": """
+  Capture a essência de seus momentos especiais com nosso serviço de fotografia profissional. Entendemos a importância de preservar memórias, por isso oferecemos uma abordagem personalizada para atender às suas necessidades específicas. Nossos fotógrafos são especialistas em capturar a beleza e a emoção de cada evento, seja um casamento, uma festa de aniversário, um encontro familiar ou qualquer outra ocasião importante.
+
+  Utilizamos equipamentos de última geração e técnicas avançadas de fotografia para garantir imagens de alta qualidade que você vai valorizar por toda a vida. Nossa equipe trabalha de forma discreta e profissional, garantindo que todos os momentos significativos sejam capturados sem interromper o fluxo do seu evento. Além disso, oferecemos uma ampla gama de pacotes de fotografia, incluindo sessões pré-evento, cobertura completa do evento e sessões pós-evento, para que você possa escolher o que melhor se adapta ao seu orçamento e às suas necessidades.
+
+  Após o evento, cuidamos da edição profissional das fotos para garantir que cada imagem reflita a melhor luz e composição. Oferecemos também opções de álbuns personalizados, impressões de alta qualidade e galerias online privadas, para que você possa compartilhar suas lembranças com familiares e amigos. Deixe-nos ajudá-lo a contar a história do seu evento através de imagens deslumbrantes que falam mais do que palavras.
+
+  """,
+      "website": "http://www.google.com.br",
+      "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Sapucaí, 303',
+        "neighbor": 'Floresta',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "90.123.456/7890-12",
+      "phone": "(31)91234-5678",
+      "contactwhats": "+5531996603153",
+      "starts": 3.0,
+    },
+    {
+      "id": 8,
+      "isPremium": true,
+      "categories": ["Video", "Fotografia"],
+      "imagesUrl": [
+        "images/fornecedores/foto/5.png",
+        "images/fornecedores/foto/4.png",
+        "images/fornecedores/foto/3.png",
+        "images/fornecedores/foto/2.png",
+        "images/fornecedores/foto/1.png",
+      ],
+      "title": "Filmagem Profissional",
+      "description":
+          "Registre cada momento com nosso serviço de filmagem profissional.",
+      "description_long": """
+  Capture a essência de seus momentos especiais com nosso serviço de fotografia profissional. Entendemos a importância de preservar memórias, por isso oferecemos uma abordagem personalizada para atender às suas necessidades específicas. Nossos fotógrafos são especialistas em capturar a beleza e a emoção de cada evento, seja um casamento, uma festa de aniversário, um encontro familiar ou qualquer outra ocasião importante.
+
+  Utilizamos equipamentos de última geração e técnicas avançadas de fotografia para garantir imagens de alta qualidade que você vai valorizar por toda a vida. Nossa equipe trabalha de forma discreta e profissional, garantindo que todos os momentos significativos sejam capturados sem interromper o fluxo do seu evento. Além disso, oferecemos uma ampla gama de pacotes de fotografia, incluindo sessões pré-evento, cobertura completa do evento e sessões pós-evento, para que você possa escolher o que melhor se adapta ao seu orçamento e às suas necessidades.
+
+  Após o evento, cuidamos da edição profissional das fotos para garantir que cada imagem reflita a melhor luz e composição. Oferecemos também opções de álbuns personalizados, impressões de alta qualidade e galerias online privadas, para que você possa compartilhar suas lembranças com familiares e amigos. Deixe-nos ajudá-lo a contar a história do seu evento através de imagens deslumbrantes que falam mais do que palavras.
+
+  """,
+      "website": "http://www.google.com.br",
+      "contact": "(35)99999-9999",
+      "location": {
+        "street": 'Rua Sapucaí, 303',
+        "neighbor": 'Floresta',
+        "city": 'Belo Horizonte',
+        "state": 'MG',
+      },
+      "cnpj": "90.123.456/7890-12",
+      "phone": "(31)91234-5678",
+      "contactwhats": "+5531996603153",
+      "starts": 3.0,
     }
   ];
 }

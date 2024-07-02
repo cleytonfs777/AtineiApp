@@ -168,7 +168,7 @@ class _ConfigureScreenState extends State<ConfigureScreen> {
               borderRadius: BorderRadius.circular(100.0),
               child: Image.network(
                 user.userData['photo_url'] ??
-                    'https://firebasestorage.googleapis.com/v0/b/atinei-appl.appspot.com/o/capa.png?alt=media&token=daadd388-85e3-4ef4-a48e-0dc521848c7f', // Substitua pelo caminho do seu logotipo
+                    'https://cdn-icons-png.flaticon.com/512/1695/1695213.png', // Substitua pelo caminho do seu logotipo
                 height: 160,
                 width: 160,
                 fit: BoxFit.cover,

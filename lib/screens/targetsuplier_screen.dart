@@ -19,10 +19,8 @@ class TargetSupplierScreen extends StatefulWidget {
 }
 
 class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
-  // Medidas Padrão
   double sizeIconBottom = 100.0;
   double sizeIcon = 30.0;
-  //Controle de fluxos
   int selectedIndex = 0;
   int currentPage = 0;
 
@@ -73,9 +71,7 @@ class _TargetSupplierScreenState extends State<TargetSupplierScreen> {
     return Scaffold(
       body: Column(
         children: [
-          const SizedBox(
-            height: 60.0,
-          ),
+          const SizedBox(height: 60.0),
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Row(

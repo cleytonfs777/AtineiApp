@@ -96,7 +96,7 @@ class _PhotoDetailState extends State<PhotoDetail> {
                         fit: BoxFit.fill)
                     : Image.network(
                         user.userData['photo_url'] ??
-                            'https://firebasestorage.googleapis.com/v0/b/atinei-appl.appspot.com/o/capa.png?alt=media&token=daadd388-85e3-4ef4-a48e-0dc521848c7f', // Substitua pelo caminho do seu logotipo
+                            'https://cdn-icons-png.flaticon.com/512/1695/1695213.png', // Substitua pelo caminho do seu logotipo
                         height: 320,
                         width: MediaQuery.of(context).size.width - 15,
                         fit: BoxFit.fill,
