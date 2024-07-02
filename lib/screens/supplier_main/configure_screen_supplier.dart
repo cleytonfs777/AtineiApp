@@ -215,10 +215,10 @@ class _ConfigureScreenSupplierState extends State<ConfigureScreenSupplier> {
                       },
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                       width: 16.0), // Espaço entre o RatingBar e o IconButton
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.share,
                       size: 40.0,
                     ),

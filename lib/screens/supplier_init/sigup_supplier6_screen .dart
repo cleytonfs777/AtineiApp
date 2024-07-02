@@ -150,7 +150,7 @@ class _SigupSupplier6ScreenState extends State<SigupSupplier6Screen> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Image.asset(
-                                    'images/pix.png', // Substitua pelo caminho do ícone do Pix
+                                    'images/pix.png',
                                     width: 120,
                                     height: 120,
                                   ),
@@ -174,7 +174,7 @@ class _SigupSupplier6ScreenState extends State<SigupSupplier6Screen> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Image.asset(
-                                    'images/creditcard.png', // Substitua pelo caminho do ícone do cartão
+                                    'images/creditcard.png',
                                     width: 120,
                                     height: 120,
                                   ),

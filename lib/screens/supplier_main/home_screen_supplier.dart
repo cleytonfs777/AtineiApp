@@ -56,9 +56,8 @@ class _HomeScreenSupplierState extends State<HomeScreenSupplier> {
           Consumer<ClientProvider>(
             builder: (context, clientProvider, child) {
               if (clientProvider.isLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
-
               List<Client> clients = clientProvider.clients;
 
               return Column(
@@ -96,52 +95,70 @@ class _HomeScreenSupplierState extends State<HomeScreenSupplier> {
                     ),
                   ),
                   Expanded(
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                              Client client = clients[index];
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ListTile(
-                                  leading: Image.network(
-                                    client.photoUrl.isNotEmpty
-                                        ? client.photoUrl
-                                        : 'images/logo.png',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.fill,
-                                  ),
-                                  title: Text(client.name),
-                                  trailing: IconButton(
-                                    icon: const Icon(Icons.arrow_forward),
-                                    onPressed: () async {
-                                      var resultado = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              TargetSupplierScreen(
-                                            listItems: client
-                                                .toMap(), // Converta Client para Map
-                                          ),
-                                        ),
-                                      );
-
-                                      if (resultado != null) {
-                                        _onItemTapped(resultado);
-                                      }
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
-                            childCount: clients.length,
-                          ),
-                        ),
-                      ],
+                      child: Container(
+                    color: Colors.white,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Nenhum Chat Disponível',
+                      style: TextStyle(
+                        color: Colors.purple, // Cor do texto
+                        fontWeight: FontWeight.bold, // Negrito
+                        fontSize: 20.0, // Tamanho da fonte (opcional)
+                      ),
+                      textAlign: TextAlign.center, // Centraliza o texto
                     ),
-                  ),
+                  )
+                      // CustomScrollView(
+                      //   slivers: [
+                      //     SliverList(
+                      //       delegate: SliverChildBuilderDelegate(
+                      //         (BuildContext context, int index) {
+                      //           Client client = clients[index];
+                      //           return Padding(
+                      //             padding: const EdgeInsets.all(3.0),
+                      //             child: Container(
+                      //               color: const Color.fromARGB(131, 3, 218, 197),
+                      //               child: Padding(
+                      //                 padding: const EdgeInsets.all(8.0),
+                      //                 child: ListTile(
+                      //                   contentPadding: const EdgeInsets.all(0),
+                      //                   leading: Image.network(
+                      //                     client.photoUrl.isNotEmpty
+                      //                         ? client.photoUrl
+                      //                         : 'images/logo.png',
+                      //                     width: 80,
+                      //                     fit: BoxFit.fill,
+                      //                   ),
+                      //                   title: Text(client.name),
+                      //                   trailing: IconButton(
+                      //                     icon: const Icon(Icons.arrow_forward),
+                      //                     onPressed: () async {
+                      //                       var resultado = await Navigator.push(
+                      //                         context,
+                      //                         MaterialPageRoute(
+                      //                           builder: (context) =>
+                      //                               TargetSupplierScreen(
+                      //                             listItems: client.toMap(),
+                      //                           ),
+                      //                         ),
+                      //                       );
+
+                      //                       if (resultado != null) {
+                      //                         _onItemTapped(resultado);
+                      //                       }
+                      //                     },
+                      //                   ),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           );
+                      //         },
+                      //         childCount: clients.length,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      ),
                 ],
               );
             },

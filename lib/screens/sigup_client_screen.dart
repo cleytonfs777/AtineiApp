@@ -374,9 +374,6 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                             final user = await context
                                 .read<AuthService>()
                                 .signInWithGoogle();
-                            if (!mounted) {
-                              return; // Adiciona esta linha para verificar se o estado ainda existe
-                            }
                             if (user != null) {
                               Navigator.pushReplacement(
                                 context,
@@ -388,9 +385,6 @@ class _SigupClientScreenState extends State<SigupClientScreen> {
                                   'Autenticação com Google falhou');
                             }
                           } catch (e) {
-                            if (!mounted) {
-                              return; // Adiciona esta linha para verificar se o estado ainda existe
-                            }
                             setState(() => loading = false);
                             final errorMessage = e is AuthException
                                 ? e.message

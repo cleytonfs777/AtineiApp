@@ -92,33 +92,26 @@ class _VisitedScreenSupplierState extends State<VisitedScreenSupplier> {
                       (BuildContext context, int index) {
                         Client client = clients[index];
                         return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            leading: Image.network(
-                              client.photoUrl.isNotEmpty
-                                  ? client.photoUrl
-                                  : 'images/logo.png',
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.fill,
-                            ),
-                            title: Text(client.name),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.arrow_forward),
-                              onPressed: () async {
-                                var resultado = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => TargetSupplierScreen(
-                                      listItems: client.toMap(),
-                                    ),
-                                  ),
-                                );
-
-                                if (resultado != null) {
-                                  _onItemTapped(resultado);
-                                }
-                              },
+                          padding: const EdgeInsets.all(3.0),
+                          child: Container(
+                            color: const Color.fromARGB(131, 3, 218, 197),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.all(0),
+                                leading: Image.network(
+                                  client.photoUrl.isNotEmpty
+                                      ? client.photoUrl
+                                      : 'images/logo.png',
+                                  width: 80,
+                                  fit: BoxFit.fill,
+                                ),
+                                title: Text(client.name),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.arrow_forward),
+                                  onPressed: () {},
+                                ),
+                              ),
                             ),
                           ),
                         );

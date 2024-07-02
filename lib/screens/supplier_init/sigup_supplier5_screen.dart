@@ -51,247 +51,40 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Stack(
-                      clipBehavior:
-                          Clip.none, // Permite que o botão extrapole os limites
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          decoration: BoxDecoration(
-                            color: AppColors.firstPurple,
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Premium',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 44.0,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              CardPriceText(
-                                text: 'R\$ 4,90',
-                                isbold: true,
-                                fontSizeType: 44.0,
-                              ),
-                              CardPriceText(
-                                text: 'À PARTIR DO 6º MÊS R\$ 15,90',
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Informações de contato (telefone, e-mail, endereço)',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Upload de fotos dos serviços realizados (até 5 fotos)',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Avaliação dos clientes',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Chat Atinei (Cliente - fornecedor)',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Botão Whatsapp',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Fotos dos serviços na página',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'inicial do site (carrossel)',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Empresa topo - aparecerá no topo do segmento após pesquisa do cliente',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              SizedBox(
-                                  height:
-                                      40.0), // Espaço para o botão na parte inferior
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -25.0, // Ajuste para extrapolar
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Configura como plano Premium
-                              widget.supplierFormData.plain = 'PREMIUM';
-                              // Atualiza a data de expiração ao clicar no botão
-                              widget.supplierFormData.expiresIn =
-                                  DateTime.now().add(const Duration(days: 60));
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigupSupplier6Screen(
-                                    supplierFormData: widget.supplierFormData,
-                                  ),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.firstGreen,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 15.0),
-                              child: Text(
-                                'SELECIONAR',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                    buildPlanOption(
+                      context: context,
+                      title: 'Premium',
+                      price: 'R\$ 4,90',
+                      afterPrice: 'À PARTIR DO 6º MÊS R\$ 15,90',
+                      benefits: [
+                        'Informações de contato (telefone, e-mail, endereço)',
+                        'Upload de fotos dos serviços realizados (até 5 fotos)',
+                        'Avaliação dos clientes',
+                        'Chat Atinei (Cliente - fornecedor)',
+                        'Botão Whatsapp',
+                        'Fotos dos serviços na página inicial do site (carrossel)',
+                        'Empresa topo - aparecerá no topo do segmento após pesquisa do cliente',
                       ],
+                      onSelect: () => selectPlan('PREMIUM'),
+                      buttonColor: AppColors.firstGreen,
                     ),
-                    const SizedBox(
-                        height: 50), // Espaço extra para acomodar o botão
-                    Stack(
-                      clipBehavior:
-                          Clip.none, // Permite que o botão extrapole os limites
-                      alignment: Alignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          decoration: BoxDecoration(
-                            color: AppColors.firstGreen,
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          child: const Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Básico',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 44.0,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              CardPriceText(
-                                text: 'R\$ 1,90',
-                                isbold: true,
-                                fontSizeType: 44.0,
-                              ),
-                              CardPriceText(
-                                text: 'À PARTIR DO 6º MÊS R\$ 9,90',
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Informações de contato (telefone, e-mail, endereço)',
-                                simbol: '✔️',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Upload de fotos dos serviços realizados (até 5 fotos)',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Avaliação dos clientes',
-                                simbol: '✓',
-                                colorType: Colors.green,
-                              ),
-                              CardPriceText(
-                                text: 'Chat Atinei (Cliente - fornecedor)',
-                                simbol: '✖️',
-                                colorType: Colors.red,
-                              ),
-                              CardPriceText(
-                                text: 'Botão Whatsapp',
-                                simbol: '✖️',
-                                colorType: Colors.red,
-                              ),
-                              CardPriceText(
-                                text: 'Fotos dos serviços na página',
-                                simbol: '✖️',
-                                colorType: Colors.red,
-                              ),
-                              CardPriceText(
-                                text: 'inicial do site (carrossel)',
-                                simbol: '✖️',
-                                colorType: Colors.red,
-                              ),
-                              CardPriceText(
-                                text:
-                                    'Empresa topo - aparecerá no topo do segmento após pesquisa do cliente',
-                                simbol: '✖️',
-                                colorType: Colors.red,
-                              ),
-                              SizedBox(
-                                  height:
-                                      40.0), // Espaço para o botão na parte inferior
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          bottom: -25.0, // Ajuste para extrapolar
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Configura como plano Premium
-                              widget.supplierFormData.plain = 'PREMIUM';
-                              // Atualiza a data de expiração ao clicar no botão
-                              widget.supplierFormData.expiresIn =
-                                  DateTime.now().add(const Duration(days: 60));
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SigupSupplier6Screen(
-                                    supplierFormData: widget.supplierFormData,
-                                  ),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.firstPurple,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 15.0),
-                              child: Text(
-                                'SELECIONAR',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                    const SizedBox(height: 50),
+                    buildPlanOption(
+                      context: context,
+                      title: 'Básico',
+                      price: 'R\$ 1,90',
+                      afterPrice: 'À PARTIR DO 6º MÊS R\$ 9,90',
+                      benefits: [
+                        'Informações de contato (telefone, e-mail, endereço)',
+                        'Upload de fotos dos serviços realizados (até 5 fotos)',
+                        'Avaliação dos clientes',
+                        'Chat Atinei (Cliente - fornecedor)',
+                        'Botão Whatsapp',
+                        'Fotos dos serviços na página inicial do site (carrossel)',
+                        'Empresa topo - aparecerá no topo do segmento após pesquisa do cliente',
                       ],
+                      onSelect: () => selectPlan('BASICO'),
+                      buttonColor: AppColors.firstPurple,
                     ),
                     const SizedBox(height: 50),
                     Row(
@@ -367,5 +160,115 @@ class _SigupSupplier5ScreenState extends State<SigupSupplier5Screen> {
         ),
       ),
     );
+  }
+
+  Widget buildPlanOption({
+    required BuildContext context,
+    required String title,
+    required String price,
+    required String afterPrice,
+    required List<String> benefits,
+    required VoidCallback onSelect,
+    required Color buttonColor,
+  }) {
+    final lista = [
+      'Avaliação dos clientes',
+      'Chat Atinei (Cliente - fornecedor)',
+      'Botão Whatsapp',
+      'Fotos dos serviços na página inicial do site (carrossel)',
+      'Empresa topo - aparecerá no topo do segmento após pesquisa do cliente',
+    ];
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: title == 'Premium'
+                ? AppColors.firstPurple
+                : AppColors.firstGreen,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 44.0,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              CardPriceText(
+                text: price,
+                isbold: true,
+                fontSizeType: 44.0,
+              ),
+              CardPriceText(
+                text: afterPrice,
+              ),
+              ...benefits.map(
+                (benefit) => CardPriceText(
+                  text: benefit,
+                  simbol: (title != 'Premium' && lista.contains(benefit))
+                      ? 'x'
+                      : '✓',
+                  colorType: (title != 'Premium' && lista.contains(benefit))
+                      ? Colors.red
+                      : Colors.green,
+                ),
+              ),
+              const SizedBox(height: 40.0),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: -25.0,
+          child: ElevatedButton(
+            onPressed: onSelect,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+              child: Text(
+                'SELECIONAR',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void selectPlan(String plan) {
+    setState(() {
+      widget.supplierFormData.plain = plan;
+      widget.supplierFormData.expiresIn =
+          DateTime.now().add(const Duration(days: 60));
+    });
+
+    print('Navigating to next screen');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SigupSupplier6Screen(
+          supplierFormData: widget.supplierFormData,
+        ),
+      ),
+    ).then((_) {
+      print('Navigation completed');
+    });
   }
 }
